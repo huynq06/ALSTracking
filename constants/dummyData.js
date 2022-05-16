@@ -12,7 +12,8 @@ const categories = [
     thumbnail: require('../assets/images/backgroundALS_01.png'),
     description:
       'ALS là đơn vị hiếm hoi tại Việt Nam được cấp chứng nhận đào tạo nghiệp vụ hàng hóa chuẩn IATA...',
-    uri: 'https://als.com.vn/dich-vu/kho-van-va-hau-can',
+   // uri: 'https://als.com.vn/dich-vu/kho-van-va-hau-can',
+   uri:'https://www.google.com/maps/place/Qu%E1%BB%91c+T%E1%BB%AD+Gi%C3%A1m,+%C4%90%E1%BB%91ng+%C4%90a,+H%C3%A0+N%E1%BB%99i,+Vi%E1%BB%87t+Nam/@21.0263644,105.8303231,17z/data=!3m1!4b1!4m5!3m4!1s0x3135ab9c29bf9b1d:0x4dc73481c6295048!8m2!3d21.0272556!4d105.8326992'
   },
   {
     id: 1,
