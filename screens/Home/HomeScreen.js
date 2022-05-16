@@ -58,7 +58,7 @@ const HomeScreen = ({navigation}) => {
               justifyContent: 'center',
             }}>
             <Text h3 white>
-              Xin chào, Admin XYZ
+              Xin chào, Admin
             </Text>
           </View>
           <TouchableOpacity
