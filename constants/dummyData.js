@@ -362,6 +362,20 @@ const listAwb = [
     Weight: 106.74,
   },
 ];
+const notificationList = [
+  {
+    ID:1,
+    title:'Xác nhận hàng vào kho',
+    body:'Lô hàng 180-66297893 đã được đưa vào kho ALSW-Mỹ đình',
+    created:'04/05/2022 08:30'
+  },
+  {
+    ID:2,
+    title:'Xác nhận giao hàng',
+    body:'Lô hàng 180-66297893 đã giao cho khách',
+    created:'64/05/2022 16:00'
+  }
+]
 export default {
   myProfile,
   categories,
@@ -372,4 +386,5 @@ export default {
   Location,
   listAwb,
   news,
+  notificationList
 };
