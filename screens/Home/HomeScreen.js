@@ -9,23 +9,27 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  Linking
+  Linking,
 } from 'react-native';
 import icons from '../../constants/icons';
 import Text from '../../constants/Text';
 import OptionItem from '../../components/OptionItem';
 import CategoryCard from '../../components/CategoryCard';
 const HomeScreen = ({navigation}) => {
-  const pageID = 100063781500462; // Waltmart's ID 
-  const scheme = Platform.select({ ios: 'fb://profile/', android: 'fb://page/' });
+  const pageID = 100063781500462; // Waltmart's ID
+  const scheme = Platform.select({
+    ios: 'fb://profile/',
+    android: 'fb://page/',
+  });
   const url = `${scheme}${pageID}`;
-  const handleOpenLink = async (url) => {
+  const handleOpenLink = async url => {
     try {
       await Linking.openURL(url);
     } catch {
       throw new Error('URI cant open:' + url);
     }
   };
+
   function renderHeader() {
     return (
       <View
@@ -65,8 +69,9 @@ const HomeScreen = ({navigation}) => {
             style={{
               justifyContent: 'center',
             }}
-            onPress={()=>{handleOpenLink('fb://profile/100063781500462')}}
-            >
+            onPress={() => {
+              navigation.navigate('Notifications')
+            }}>
             <Image
               source={icons.notification}
               style={{
@@ -76,13 +81,12 @@ const HomeScreen = ({navigation}) => {
               }}
             />
           </TouchableOpacity>
-
-          {/* Name */}
-          {/* NotifiIcon */}
+      
         </View>
       </View>
     );
   }
+
   function renderAdvertise() {
     return (
       <View
@@ -96,19 +100,21 @@ const HomeScreen = ({navigation}) => {
           },
           styles.shadow,
         ]}>
-        <View style={{flexDirection: 'row'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+          }}>
           <View style={styles.shadow}>
             {/*    <Image
-              source={images.skiVilla}
-              resizeMode="cover"
-              style={{
-                width: 70,
-                height: 70,
-                borderRadius: 15,
-              }}
-            /> */}
+                      source={images.skiVilla}
+                      resizeMode="cover"
+                      style={{
+                        width: 70,
+                        height: 70,
+                        borderRadius: 15,
+                      }}
+                    /> */}
           </View>
-
           <View
             style={{
               marginTop: SIZES.radius,
@@ -130,10 +136,10 @@ const HomeScreen = ({navigation}) => {
                 borderRightColor: COLORS.gray,
               }}>
               <Text red h3>
-                Đang chờ{' '}
+                Đang chờ
               </Text>
               <Text red body3>
-                5{' '}
+                5
               </Text>
             </View>
             <View
@@ -142,15 +148,14 @@ const HomeScreen = ({navigation}) => {
                 alignItems: 'center',
               }}>
               <Text green h3>
-                Đã trả{' '}
+                Đã trả
               </Text>
               <Text green body3>
-                7{' '}
+                7
               </Text>
             </View>
           </View>
         </View>
-
         <View
           style={{
             paddingTop: SIZES.radius,
@@ -162,15 +167,16 @@ const HomeScreen = ({navigation}) => {
             style={{
               color: COLORS.lightOrange,
             }}>
-            Đang theo dõi{' '}
+            Đang theo dõi
           </Text>
           <Text green body3>
-            7{' '}
+            7
           </Text>
         </View>
       </View>
     );
   }
+
   function renderFunction() {
     const renderItem = ({item, index}) => (
       <OptionItem
@@ -205,37 +211,61 @@ const HomeScreen = ({navigation}) => {
         }}
         //  keyExtractor={(item) => `Imp-${item.id}`}
         renderItem={renderItem}
-        style={{marginTop: SIZES.padding}}
+        style={{
+          marginTop: SIZES.padding,
+        }}
       />
     );
   }
-  function renderNotice(){
-    return(
-        <View
+
+  function renderNotice() {
+    return (
+      <View
+        style={{
+          marginVertical: SIZES.padding,
+          marginHorizontal: SIZES.padding,
+          padding: 20,
+          borderRadius: SIZES.radius,
+          backgroundColor: COLORS.primaryALS,
+          ...styles.shadow,
+        }}>
+        <Text
+          style={{
+            color: COLORS.white,
+            ...FONTS.h2,
+          }}>
+          Tham gia ngay!
+        </Text>
+        <Text
+          style={{
+            marginTop: SIZES.base,
+            color: COLORS.white,
+            ...FONTS.body3,
+            lineHeight: 18,
+          }}>
+          Tham gia cộng đồng facebook để được giải đáp các thắc mắc và cùng nhau
+          trao đổi kinh nghiệm.
+        </Text>
+        <TouchableOpacity
+          style={{
+            marginTop: SIZES.base,
+          }}
+          onPress={() => {
+            handleOpenLink('fb://profile/100063781500462');
+          }}>
+          <Text
             style={{
-                marginTop:SIZES.padding,
-                marginHorizontal:SIZES.padding,
-                padding:20,
-                borderRadius:SIZES.radius,
-                backgroundColor:COLORS.primaryALS,
-                ...styles.shadow
-            }}
-        >
-            <Text style={{color:COLORS.white,...FONTS.h2}}>Tham gia ngay!</Text>
-            <Text style={{marginTop:SIZES.base,
-                    color:COLORS.white,...FONTS.body3,lineHeight:18
-                }}>Tham gia cộng đồng facebook để được giải đáp các thắc mắc và cùng nhau trao đổi kinh nghiệm.</Text>
-                      <TouchableOpacity
-                        style={{
-                            marginTop:SIZES.base
-                        }}
-                        onPress={()=>{handleOpenLink('fb://profile/100063781500462')}}
-                      >
-                          <Text style={{textDecorationLine:'underline',color:COLORS.green,...FONTS.h3}}>Tham gia</Text>
-                      </TouchableOpacity>
-        </View>
-    )
-}
+              textDecorationLine: 'underline',
+              color: COLORS.green,
+              ...FONTS.h3,
+            }}>
+            Tham gia
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   function renderService() {
     return (
       <View
@@ -284,6 +314,7 @@ const HomeScreen = ({navigation}) => {
       </View>
     );
   }
+
   function renderNews() {
     return (
       <View
@@ -338,7 +369,6 @@ const HomeScreen = ({navigation}) => {
         backgroundColor: '#F2F2F2',
       }}>
       {renderHeader()}
-      {/* Main */}
       <View
         style={{
           position: 'absolute',
@@ -355,12 +385,12 @@ const HomeScreen = ({navigation}) => {
               //paddingBottom: 30,
             }
           }>
-          {/* Advertise */}
-          {renderAdvertise()}
+          {/* Advertise */} 
+          {renderAdvertise()} 
           {/* Function */}
-          {renderFunction()}
-          {/* Facebook */}
-          {renderNotice()}
+          {renderFunction()} 
+          {/* Facebook */} 
+          {renderNotice()} 
           {renderService()}
           {renderNews()}
         </ScrollView>

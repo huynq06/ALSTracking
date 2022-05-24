@@ -4,6 +4,7 @@ import MainNavigator from '../MainNavigator/MainNavigator';
 import SearchNavigator from '../SearchNavigator/SearchNavigator';
 import NewsScreen from '../../screens/News/NewsScreen';
 import FlightImportScreen from '../../screens/FlightImport/FlightImportScreen';
+import NotificationsScreen from '../../screens/Notifications/NotificationsScreen';
 const Stack = createNativeStackNavigator();
 const HomeNavigator = () => {
   return (
@@ -16,6 +17,7 @@ const HomeNavigator = () => {
       <Stack.Screen name="SearchNav" component={SearchNavigator} />
       <Stack.Screen name="News" component={NewsScreen} />
       <Stack.Screen name="FlightImport" component={FlightImportScreen} />
+      <Stack.Screen name="Notifications" component={NotificationsScreen} />
     </Stack.Navigator>
   );
 };
