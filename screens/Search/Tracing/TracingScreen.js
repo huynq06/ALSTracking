@@ -54,21 +54,44 @@ const TracingScreen = ({navigation}) =>{
               style={{
                 marginTop: SIZES.padding,
                 paddingHorizontal: SIZES.padding,
+                //backgroundColor:COLORS.green
               }}>
+                   <View
+                          style={{
+                            width:40,
+                            height:20,
+                            borderRadius:1,
+                            borderColor:COLORS.darkGray,
+                            backgroundColor:COLORS.orange,
+                            marginLeft:-10,
+                            alignItems: 'center',
+                            justifyContent:'center',
+
+                          }}
+                        ></View>
+                          <View
+                            style={{
+                              height: 50,
+                              width: 2,
+                              marginLeft: 9,
+                              backgroundColor: COLORS.secondaryALS,
+                              //zIndex: -1,
+                            }}></View>
               {constants.track_order_status.map((item, index) => {
                 return (
                   <View key={`StatusList-${index}`}>
+                  
                     <View
                       style={{
                         flexDirection: 'row',
                         alignItems: 'center',
-                        marginVertical: -5,
+                        marginVertical: -10,
                       }}>
                       <Image
                         source={icons.check_circle}
                         style={{
-                          width: 40,
-                          height: 40,
+                          width: 20,
+                          height: 20,
                           tintColor:
                             index <= currentStep
                               ? COLORS.secondaryALS
@@ -91,10 +114,10 @@ const TracingScreen = ({navigation}) =>{
                           <View
                             style={{
                               height: 50,
-                              width: 3,
-                              marginLeft: 18,
+                              width: 2,
+                              marginLeft: 9,
                               backgroundColor: COLORS.secondaryALS,
-                              zIndex: -1,
+                              //zIndex: -1,
                             }}></View>
                         )}
                         {index >= currentStep && (
@@ -102,9 +125,9 @@ const TracingScreen = ({navigation}) =>{
                             source={icons.dotted_line}
                             resizeMode="cover"
                             style={{
-                              width: 4,
+                              width: 3,
                               height: 50,
-                              marginLeft: 17,
+                              marginLeft: 9,
                             }}
                           />
                         )}

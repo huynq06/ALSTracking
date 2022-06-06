@@ -46,6 +46,10 @@ const HomeScreen = ({navigation}) => {
             marginTop: SIZES.padding,
           }}>
           {/* Avartar */}
+          <TouchableOpacity
+          onPress={()=>{
+            navigation.openDrawer()
+          }}>
           <Image
             source={images.avartar}
             style={{
@@ -55,6 +59,8 @@ const HomeScreen = ({navigation}) => {
               height: 50,
             }}
           />
+          </TouchableOpacity>
+        
           <View
             style={{
               flex: 1,
