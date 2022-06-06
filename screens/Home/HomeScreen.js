@@ -222,6 +222,11 @@ const HomeScreen = ({navigation}) => {
     return (
       <View
         style={{
+          backgroundColor: '#F2F2F2',
+        }}
+      >
+         <View
+        style={{
           marginVertical: SIZES.padding,
           marginHorizontal: SIZES.padding,
           padding: 20,
@@ -263,6 +268,8 @@ const HomeScreen = ({navigation}) => {
           </Text>
         </TouchableOpacity>
       </View>
+      </View>
+     
     );
   }
 
