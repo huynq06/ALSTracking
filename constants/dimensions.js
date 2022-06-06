@@ -11,7 +11,7 @@ export const verticalIndent = verticalScale(indent);
 export const halfVerticalIndent = verticalScale(indent / 2);
 
 export const borderRadius = 4;
-export const iconSize = moderateScale(28);
+export const iconSize = moderateScale(20);
 export const bigIconSize = moderateScale(40);
 
 export const iconMargin = Platform.OS === 'android' ? 16 : 10;

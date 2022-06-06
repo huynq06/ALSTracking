@@ -125,26 +125,6 @@ const featuresImpData = [
     screenName: 'FlightImportScreen',
     srceenNavigagor: 'FlightImport',
   },
-  // {
-  //   id: 103,
-  //   icon: icons.wallet,
-  //   color: COLORS.primary,
-  //   backgroundColor: COLORS.lightGreen,
-  //   bgColor:['#e973ad', '#da5df2'],
-  //   description: 'Bill',
-  //   screenName: 'InvoiceScreen',
-  //   srceenNavigagor: 'Invoice',
-  // },
-  // {
-  //   id: 104,
-  //   icon: icons.bill,
-  //   color: COLORS.primary,
-  //   backgroundColor: COLORS.lightGreen,
-  //   bgColor:['#ffc465', '#ff9c5f'],
-  //   description: 'Track',
-  //   screenName: 'InvoiceScreen',
-  //   srceenNavigagor: 'Invoice',
-  // },
   {
     id: 105,
     icon: icons.awb,
@@ -152,8 +132,8 @@ const featuresImpData = [
     description: 'Follow',
     bgColor: ['#ffc465', '#ff9c5f'],
     backgroundColor: COLORS.lightyellow,
-    screenName: 'ExpAwbScreen',
-    srceenNavigagor: 'ExpAwb',
+    screenName: 'FollowScreen',
+    srceenNavigagor: 'Follow',
   },
   {
     id: 106,
@@ -342,6 +322,32 @@ const menu = [
     list: [hamburger, hotTacos, wrapSandwich],
   },
 ];
+const topSearch = [
+  {
+    id: 1,
+    name: 'Import',
+    list: [hamburger, hotTacos, vegBiryani],
+    active:true
+  },
+  {
+    id: 2,
+    name: 'Export',
+    list: [hamburger, vegBiryani, wrapSandwich],
+    active:false
+  },
+  {
+    id: 3,
+    name: 'Service Order',
+    list: [hamburger, hotTacos, wrapSandwich],
+    active:false
+  },
+  {
+    id: 4,
+    name: 'Schedules',
+    list: [hamburger, hotTacos, vegBiryani],
+    active:false
+  },
+]
 const listAwb = [
   {
     MAWB_ORDER: 1,
@@ -386,5 +392,6 @@ export default {
   Location,
   listAwb,
   news,
-  notificationList
+  notificationList,
+  topSearch
 };
