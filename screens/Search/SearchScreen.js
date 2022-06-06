@@ -123,7 +123,6 @@ const SearchScreen = ({navigation}) => {
           {/* icon */}
           <TouchableOpacity
             onPress={() => {
-              console.log('go go');
               filterModalSharedValue1.value = withTiming(0, {
                 duration: 100,
               });
