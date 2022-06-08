@@ -26,15 +26,18 @@ import {createStore, combineReducers, applyMiddleware} from 'redux';
 import ReduxThunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 import flightReducer from './stores/reducers/flights';
+import { PersistGate } from 'redux-persist/integration/react';
+import { AppContainer } from './AppContainer';
+import { persistor,store } from './stores';
 const STYLES = ['default', 'dark-content', 'light-content'];
 const TRANSITIONS = ['fade', 'slide', 'none'];
-const rootReducer = combineReducers({
-  flights: flightReducer,
-});
+// const rootReducer = combineReducers({
+//   flights: flightReducer,
+// });
 
-let middlewares = [];
-middlewares.push(ReduxThunk);
-const store = createStore(rootReducer, applyMiddleware(...middlewares));
+// let middlewares = [];
+// middlewares.push(ReduxThunk);
+// const store = createStore(rootReducer, applyMiddleware(...middlewares));
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const [hidden, setHidden] = useState(false);
@@ -55,7 +58,12 @@ const App = () => {
         showHideTransition={statusBarTransition}
         hidden={hidden}
       />
-      <AppNavigator />
+      {/* <AppNavigator /> */}
+      <PersistGate persistor={persistor}>
+       
+            <AppContainer/>
+        
+        </PersistGate>
     </Provider>
   );
 };
