@@ -7,7 +7,7 @@
  */
 
 import React, {useState} from 'react';
-
+import 'react-native-reanimated'
 import {
   StatusBar,
   StyleSheet,
@@ -27,6 +27,7 @@ import ReduxThunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 import flightReducer from './stores/reducers/flights';
 import { PersistGate } from 'redux-persist/integration/react';
+import { initAPIInterceptor } from './api/APIInterceptor';
 import { AppContainer } from './AppContainer';
 import { persistor,store } from './stores';
 const STYLES = ['default', 'dark-content', 'light-content'];
@@ -38,6 +39,7 @@ const TRANSITIONS = ['fade', 'slide', 'none'];
 // let middlewares = [];
 // middlewares.push(ReduxThunk);
 // const store = createStore(rootReducer, applyMiddleware(...middlewares));
+initAPIInterceptor(store);
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const [hidden, setHidden] = useState(false);

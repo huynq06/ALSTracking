@@ -1,3 +1,6 @@
+import {
+  useSharedValue,
+} from 'react-native-reanimated';
 import React, {useState, useEffect} from 'react';
 import {COLORS, FONTS, SIZES} from '../../../constants/theme';
 import {
@@ -11,9 +14,6 @@ import Text from '../../../constants/Text';
 import Header from '../../../components/Header';
 import ItemSeparator from '../../../components/ItemSeparator';
 import TextButton from '../../../components/TextButton';
-import {
-  useSharedValue,
-} from 'react-native-reanimated';
 import FilterModal from '../FilterModal';
 const AwbDetailScreen = ({navigation}) => {
   const [searchText, setSearchText] = useState('');
