@@ -1,3 +1,8 @@
+import Animated, {
+  withDelay,
+  withTiming,
+  useSharedValue,
+} from 'react-native-reanimated';
 import React, {useState, useEffect} from 'react';
 import {COLORS, FONTS, SIZES} from '../../constants/theme';
 import images from '../../constants/images';
@@ -14,11 +19,6 @@ import icons from '../../constants/icons';
 import Text from '../../constants/Text';
 import Header from '../../components/Header';
 import dummyData from '../../constants/dummyData';
-import Animated, {
-  withDelay,
-  withTiming,
-  useSharedValue,
-} from 'react-native-reanimated';
 import FilterModal from './FilterModal';
 import LineDivider from '../../components/LineDivider';
 import IconButton from '../../components/IconButton';

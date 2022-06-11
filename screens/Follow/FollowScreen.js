@@ -1,3 +1,10 @@
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  withDelay,
+  withTiming,
+  useSharedValue,
+} from 'react-native-reanimated';
 import React, {useState, useEffect, useCallback} from 'react';
 import {
   View,
@@ -13,13 +20,6 @@ import icons from '../../constants/icons';
 import HorizontalCalendar from '../../components/HorizontalCalendar';
 import * as dimensions from '../../constants/dimensions';
 import DatePicker from '../../components/DatePicker/DatePicker';
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-  withDelay,
-  withTiming,
-  useSharedValue,
-} from 'react-native-reanimated';
 import FilterModalDateTime from '../../components/FilterModalDateTime';
 import moment from 'moment';
 import dummyData from '../../constants/dummyData';

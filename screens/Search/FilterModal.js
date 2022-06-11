@@ -1,14 +1,14 @@
-import React, {useState, useRef, useEffect} from 'react';
-import {
-  View,
-  Text,
-} from 'react-native';
 import Animated, {
   interpolate,
   useAnimatedStyle,
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
+import React, {useState, useRef, useEffect} from 'react';
+import {
+  View,
+  Text,
+} from 'react-native';
 import TextButton from '../../components/TextButton';
 import icons from '../../constants/icons';
 import {SIZES, FONTS, COLORS} from '../../constants/theme';
