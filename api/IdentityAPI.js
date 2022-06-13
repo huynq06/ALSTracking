@@ -10,8 +10,13 @@ export const getUserRoles = id =>
   api.get(`/api/identity/users/${id}/roles`).then(({data}) => data.items);
 
 export const getUsers = (params = {maxResultCount: 10, skipCount: 0}) =>{
-  console.log('getUsers.......',params)
-  return api.get('/api/identity/users', {params}).then(({data}) => data);
+return api.get('/api/identity/users'
+  ,{params}/*   {
+    headers: {
+      'Content-Type':'application/json',
+       '__tenant': 'aa60fe39-3318-0c85-dc60-37e0d2d9aa50'
+    }
+} */).then(({data}) => data);
 }
  
 

@@ -9,7 +9,6 @@ import PersistentStorageActions from "../stores/actions/PersistentStorageActions
 import { isTokenValid } from "../utils/TokenUtils";
 const AppContainer = ({token,setToken}) => {
     const isValid = useMemo(() => isTokenValid(token), [token]);
-    console.log('TOKEN is Valid',isValid)
     useEffect(() => {
         if (!isValid && token && token.access_token) {
           setToken({});

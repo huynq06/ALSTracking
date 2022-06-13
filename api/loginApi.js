@@ -30,3 +30,15 @@ api({
     method: 'GET',
     url: '/api/account/logout',
   }).then(({data}) => data).catch(data => data);
+
+  export const getTenant = tenantName =>
+  api({
+    method: 'GET',
+    url: `/api/abp/multi-tenancy/tenants/by-name/${tenantName}`,
+  }).then(({ data }) => data);
+
+export const getTenantById = tenantId =>
+  api({
+    method: 'GET',
+    url: `/api/abp/multi-tenancy/tenants/by-id/${tenantId}`,
+  }).then(({ data }) => data);

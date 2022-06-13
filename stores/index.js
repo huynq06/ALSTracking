@@ -13,7 +13,7 @@ import {
   import createSagaMiddleware from 'redux-saga';
 import rootReducer from './reducers';
 import { rootSaga } from './sagas';
-
+import ReduxThunk from 'redux-thunk';
 const sagaMiddleware = createSagaMiddleware();
 const persistConfig = {
     key: 'root',
@@ -28,7 +28,7 @@ const DefaultMiddleware = (getDefaultMiddleware) =>getDefaultMiddleware({
 })
   export const store = configureStore({
     reducer: persistedReducer,
-    middleware: [sagaMiddleware]
+    middleware: [sagaMiddleware,ReduxThunk]
     
   });
   

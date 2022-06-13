@@ -31,4 +31,10 @@ export default createReducer(inititalState,builder =>
         }
         state.token = action.payload;
     })
+    .addCase(PersistentStorageActions.setVerifyToken, (state, action) => {
+        state.verifyToken = action.payload;
+      })
+      .addCase(PersistentStorageActions.setTenant, (state, action) => {
+        state.tenant = action.payload;
+      }),  
     )

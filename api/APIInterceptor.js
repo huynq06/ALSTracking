@@ -5,13 +5,9 @@ import PersistentStorageActions from '../stores/actions/PersistentStorageActions
 export function initAPIInterceptor(store) {
     api.interceptors.request.use(
       async request => {
-      console.log('rq--------------------------------------------', request);
-
-      console.log('store---------------------------------------', store.getState());
         const {
           persistentStorage: {token, language, tenant, verifyToken},
         } = store.getState();
-        console.log('persistentStorage---------------------------------------', store.getState());
         if (!request.headers.RequestVerificationToken && verifyToken) {
           request.headers.RequestVerificationToken = verifyToken;
         }
@@ -29,9 +25,10 @@ export function initAPIInterceptor(store) {
         }
   
         if (!request.headers.__tenant && tenant && tenant.tenantId) {
+          console.log('da chay vao header tenant :) :) :) :) :)');
           request.headers.__tenant = tenant.tenantId;
         }
-  
+        console.log('request_________________________________',request)
         return request;
       },
       error => console.error(error),
@@ -57,7 +54,7 @@ export function initAPIInterceptor(store) {
         } catch (e) {
           console.log('APIC58', e.toString());
         }
-  
+        //console.log('response----------------------------------------------',response)
         return response;
       },
       error => {

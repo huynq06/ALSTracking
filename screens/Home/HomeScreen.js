@@ -15,9 +15,11 @@ import icons from '../../constants/icons';
 import Text from '../../constants/Text';
 import OptionItem from '../../components/OptionItem';
 import CategoryCard from '../../components/CategoryCard';
+import { getTenant } from '../../api/loginApi';
 import { connectToRedux } from '../../utils/ReduxConnect';
 import AppActions from '../../stores/actions/AppActions';
-const HomeScreen = ({navigation,logoutAsync}) => {
+import PersistentStorageActions from '../../stores/actions/PersistentStorageActions';
+const HomeScreen = ({navigation,logoutAsync,setTenant}) => {
   const pageID = 100063781500462; // Waltmart's ID
   const scheme = Platform.select({
     ios: 'fb://profile/',
@@ -33,6 +35,13 @@ const HomeScreen = ({navigation,logoutAsync}) => {
   };
 const LogOutHandle = () =>{
   logoutAsync()
+}
+const SetTenantHandle = ()=>{
+  getTenant('ALSW_UAT').then(({ success, ...data }) => {
+    console.log('getTenant###########################',data)
+    setTenant(data);
+    //toggleTenantSelection();
+  });
 }
   function renderHeader() {
     return (
@@ -153,18 +162,19 @@ const LogOutHandle = () =>{
                 5
               </Text>
             </TouchableOpacity>
-            <View
+            <TouchableOpacity
+            onPress={SetTenantHandle}
               style={{
                 flex: 1,
                 alignItems: 'center',
               }}>
               <Text green h3>
-                Đã trả
+                SET Tenant
               </Text>
               <Text green body3>
                 7
               </Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
         <View
@@ -437,5 +447,6 @@ export default connectToRedux({
   }),
   dispatchProps: {
     logoutAsync: AppActions.logoutAsync,
+    setTenant: PersistentStorageActions.setTenant,
   },
 });
