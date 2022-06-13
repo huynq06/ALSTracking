@@ -1,3 +1,8 @@
+import Animated, {
+  withDelay,
+  withTiming,
+  useSharedValue,
+} from 'react-native-reanimated';
 import React, {useState, useEffect} from 'react';
 import {COLORS, FONTS, SIZES} from '../../constants/theme';
 import images from '../../constants/images';
@@ -14,19 +19,21 @@ import icons from '../../constants/icons';
 import Text from '../../constants/Text';
 import Header from '../../components/Header';
 import dummyData from '../../constants/dummyData';
-import Animated, {
-  withDelay,
-  withTiming,
-  useSharedValue,
-} from 'react-native-reanimated';
 import FilterModal from './FilterModal';
 import LineDivider from '../../components/LineDivider';
+import IconButton from '../../components/IconButton';
 const SearchScreen = ({navigation}) => {
   const [searchText, setSearchText] = useState('');
   const [showFilterModel, setShowFilterModel] = useState(false);
-  const onChangeTextHandle = () => {};
+  const [listAwb, setListAwb] = useState([]);
+  const onChangeTextHandle = text => {
+    setSearchText(text);
+  };
   const filterModalSharedValue1 = useSharedValue(SIZES.height);
   const filterModalSharedValue2 = useSharedValue(SIZES.height);
+  const handleSearch = () => {
+    setListAwb(dummyData.listAwb);
+  };
   function renderHeader() {
     return (
       <Header
@@ -116,7 +123,6 @@ const SearchScreen = ({navigation}) => {
           {/* icon */}
           <TouchableOpacity
             onPress={() => {
-              console.log('go go');
               filterModalSharedValue1.value = withTiming(0, {
                 duration: 100,
               });
@@ -155,7 +161,7 @@ const SearchScreen = ({navigation}) => {
               width: 25,
               height: 25,
             }}
-            onPress={() => {}}
+            onPress={handleSearch}
           />
         </View>
       </View>
@@ -170,9 +176,9 @@ const SearchScreen = ({navigation}) => {
           paddingHorizontal: SIZES.padding,
           marginTop: SIZES.padding,
         }}>
-        <Text body2>{dummyData.listAwb.length} Results</Text>
+        <Text body2>{listAwb.length} Results</Text>
         <FlatList
-          data={dummyData.listAwb}
+          data={listAwb}
           keyExtractor={item => `${item.ID}`}
           showsHorizontalScrollIndicator={false}
           scrollEventThrottle={16}
@@ -222,11 +228,17 @@ const SearchScreen = ({navigation}) => {
                       marginHorizontal: 6,
                       width: 10,
                       height: 10,
-                      backgroundColor: COLORS.lightOrange,
+                      backgroundColor:
+                        item.Status === 1 ? COLORS.lightOrange : COLORS.green,
                     }}
                   />
-                  <Text body3 green>
-                    Deliveried
+                  <Text
+                    body3
+                    style={{
+                      color:
+                        item.Status === 1 ? COLORS.lightOrange : COLORS.green,
+                    }}>
+                    {item.Status === 1? 'In House' : 'Delivered'}
                   </Text>
                 </View>
                 {/* Detail */}

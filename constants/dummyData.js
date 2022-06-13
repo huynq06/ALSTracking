@@ -13,6 +13,7 @@ const categories = [
     description:
       'ALS là đơn vị hiếm hoi tại Việt Nam được cấp chứng nhận đào tạo nghiệp vụ hàng hóa chuẩn IATA...',
     uri: 'https://als.com.vn/dich-vu/kho-van-va-hau-can',
+   //uri:'https://www.google.com/maps/place/Qu%E1%BB%91c+T%E1%BB%AD+Gi%C3%A1m,+%C4%90%E1%BB%91ng+%C4%90a,+H%C3%A0+N%E1%BB%99i,+Vi%E1%BB%87t+Nam/@21.0263644,105.8303231,17z/data=!3m1!4b1!4m5!3m4!1s0x3135ab9c29bf9b1d:0x4dc73481c6295048!8m2!3d21.0272556!4d105.8326992'
   },
   {
     id: 1,
@@ -125,26 +126,6 @@ const featuresImpData = [
     screenName: 'FlightImportScreen',
     srceenNavigagor: 'FlightImport',
   },
-  // {
-  //   id: 103,
-  //   icon: icons.wallet,
-  //   color: COLORS.primary,
-  //   backgroundColor: COLORS.lightGreen,
-  //   bgColor:['#e973ad', '#da5df2'],
-  //   description: 'Bill',
-  //   screenName: 'InvoiceScreen',
-  //   srceenNavigagor: 'Invoice',
-  // },
-  // {
-  //   id: 104,
-  //   icon: icons.bill,
-  //   color: COLORS.primary,
-  //   backgroundColor: COLORS.lightGreen,
-  //   bgColor:['#ffc465', '#ff9c5f'],
-  //   description: 'Track',
-  //   screenName: 'InvoiceScreen',
-  //   srceenNavigagor: 'Invoice',
-  // },
   {
     id: 105,
     icon: icons.awb,
@@ -152,8 +133,8 @@ const featuresImpData = [
     description: 'Follow',
     bgColor: ['#ffc465', '#ff9c5f'],
     backgroundColor: COLORS.lightyellow,
-    screenName: 'ExpAwbScreen',
-    srceenNavigagor: 'ExpAwb',
+    screenName: 'FollowScreen',
+    srceenNavigagor: 'Follow',
   },
   {
     id: 106,
@@ -342,6 +323,32 @@ const menu = [
     list: [hamburger, hotTacos, wrapSandwich],
   },
 ];
+const topSearch = [
+  {
+    id: 1,
+    name: 'Import',
+    list: [hamburger, hotTacos, vegBiryani],
+    active:true
+  },
+  {
+    id: 2,
+    name: 'Export',
+    list: [hamburger, vegBiryani, wrapSandwich],
+    active:false
+  },
+  {
+    id: 3,
+    name: 'Service Order',
+    list: [hamburger, hotTacos, wrapSandwich],
+    active:false
+  },
+  {
+    id: 4,
+    name: 'Schedules',
+    list: [hamburger, hotTacos, vegBiryani],
+    active:false
+  },
+]
 const listAwb = [
   {
     MAWB_ORDER: 1,
@@ -362,6 +369,20 @@ const listAwb = [
     Weight: 106.74,
   },
 ];
+const notificationList = [
+  {
+    ID:1,
+    title:'Xác nhận hàng vào kho',
+    body:'Lô hàng 180-66297893 đã được đưa vào kho ALSW-Mỹ đình',
+    created:'04/05/2022 08:30'
+  },
+  {
+    ID:2,
+    title:'Xác nhận giao hàng',
+    body:'Lô hàng 180-66297893 đã giao cho khách',
+    created:'64/05/2022 16:00'
+  }
+]
 export default {
   myProfile,
   categories,
@@ -372,4 +393,6 @@ export default {
   Location,
   listAwb,
   news,
+  notificationList,
+  topSearch
 };

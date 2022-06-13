@@ -9,12 +9,36 @@ import {
   View,
   Text,
 } from 'react-native';
-import TextButton from '../../components/TextButton';
-import icons from '../../constants/icons';
-import {SIZES, FONTS, COLORS} from '../../constants/theme';
-import FilterItem from '../../components/FilterItem';
-const FilterModal = ({filterModalSharedValue1, filterModalSharedValue2}) => {
+import TextButton from './TextButton';
+import icons from '../constants/icons';
+import { SIZES,FONTS,COLORS } from '../constants/theme';
+import base64 from 'base-64';
+import CalendarPicker from 'react-native-calendar-picker';
+import FilterItem from './FilterItem';
+const FilterModalDateTime = ({filterModalSharedValue1, filterModalSharedValue2,onDateChangeFunc}) => {
   const [selected, setSelect] = useState('Import');
+  const [selectedStartDate, setSelectedStartDate] = useState(null);
+  const [selectedEndDate, setSelectedEndDate] = useState(null);
+  const onDateChange = (date, type) => {
+    //function to handle the date change
+    onDateChangeFunc(date)
+    filterModalSharedValue2.value = withTiming(SIZES.height, {
+        duration: 500,
+      });
+      filterModalSharedValue1.value = withDelay(
+        500,
+        withTiming(SIZES.height, {
+          duration: 100,
+        }),
+      );
+    // if (type === 'END_DATE') {
+    //   setSelectedEndDate(date);
+    // } else {
+    //   setSelectedEndDate(null);
+    //   setSelectedStartDate(date);
+    // }
+  };
+
   const filterModalContainerAniamtedStyle = useAnimatedStyle(() => {
     return {
       opacity: interpolate(
@@ -126,7 +150,7 @@ const FilterModal = ({filterModalSharedValue1, filterModalSharedValue2}) => {
             {
               position: 'absolute',
               bottom: 0,
-              height: SIZES.height * 0.45,
+              height: SIZES.height * 0.6,
               width: SIZES.width,
               borderTopLeftRadius: 30,
               borderTopRightRadius: 30,
@@ -149,7 +173,7 @@ const FilterModal = ({filterModalSharedValue1, filterModalSharedValue2}) => {
               style={{
                 flex: 1,
                 textAlign: 'center',
-                ...FONTS.h1,
+                ...FONTS.h3,
               }}>
               Filter
             </Text>
@@ -180,30 +204,48 @@ const FilterModal = ({filterModalSharedValue1, filterModalSharedValue2}) => {
           <View
             style={{
               paddingHorizontal: SIZES.padding,
+              //backgroundColor:COLORS.green,
+              marginTop:SIZES.base
             }}>
-            <FilterItem
-              name="Import"
-              icon={icons.flightLanded}
-              isSelected={selected === 'Import'}
-              onPress={() => {
-                setSelect('Import');
-              }}
-            />
-            <FilterItem
-              name="Export"
-              icon={icons.flightDepart}
-              isSelected={selected === 'Export'}
-              onPress={() => {
-                setSelect('Export');
-              }}
-            />
+               <CalendarPicker
+        startFromMonday={true}
+        //allowRangeSelection={true}
+        minDate={new Date(2018, 1, 1)}
+        maxDate={new Date(2050, 6, 3)}
+        weekdays={['Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun']}
+        months={[
+          'January',
+          'Febraury',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
+        ]}
+        previousTitle="Previous"
+        nextTitle="Next"
+        todayBackgroundColor="#e6ffe6"
+        selectedDayColor="#66ff33"
+        selectedDayTextColor="#000000"
+        scaleFactor={375}
+        textStyle={{
+          fontFamily: 'Cochin',
+          color: '#000000',
+        }}
+        onDateChange={onDateChange}
+      />
           </View>
 
           {/* Footer */}
-          {renderFooter()}
+         {/*  {renderFooter()} */}
         </Animated.View>
       </Animated.View>
     </Animated.View>
   );
 };
-export default FilterModal;
+export default FilterModalDateTime;

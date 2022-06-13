@@ -9,23 +9,40 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  Linking
+  Linking,
 } from 'react-native';
 import icons from '../../constants/icons';
 import Text from '../../constants/Text';
 import OptionItem from '../../components/OptionItem';
 import CategoryCard from '../../components/CategoryCard';
-const HomeScreen = ({navigation}) => {
-  const pageID = 100063781500462; // Waltmart's ID 
-  const scheme = Platform.select({ ios: 'fb://profile/', android: 'fb://page/' });
+import { getTenant } from '../../api/loginApi';
+import { connectToRedux } from '../../utils/ReduxConnect';
+import AppActions from '../../stores/actions/AppActions';
+import PersistentStorageActions from '../../stores/actions/PersistentStorageActions';
+const HomeScreen = ({navigation,logoutAsync,setTenant}) => {
+  const pageID = 100063781500462; // Waltmart's ID
+  const scheme = Platform.select({
+    ios: 'fb://profile/',
+    android: 'fb://page/',
+  });
   const url = `${scheme}${pageID}`;
-  const handleOpenLink = async (url) => {
+  const handleOpenLink = async url => {
     try {
       await Linking.openURL(url);
     } catch {
       throw new Error('URI cant open:' + url);
     }
   };
+const LogOutHandle = () =>{
+  logoutAsync()
+}
+const SetTenantHandle = ()=>{
+  getTenant('ALSW_UAT').then(({ success, ...data }) => {
+    console.log('getTenant###########################',data)
+    setTenant(data);
+    //toggleTenantSelection();
+  });
+}
   function renderHeader() {
     return (
       <View
@@ -42,6 +59,10 @@ const HomeScreen = ({navigation}) => {
             marginTop: SIZES.padding,
           }}>
           {/* Avartar */}
+          <TouchableOpacity
+          onPress={()=>{
+            navigation.openDrawer()
+          }}>
           <Image
             source={images.avartar}
             style={{
@@ -51,6 +72,8 @@ const HomeScreen = ({navigation}) => {
               height: 50,
             }}
           />
+          </TouchableOpacity>
+        
           <View
             style={{
               flex: 1,
@@ -65,8 +88,9 @@ const HomeScreen = ({navigation}) => {
             style={{
               justifyContent: 'center',
             }}
-            onPress={()=>{handleOpenLink('fb://profile/100063781500462')}}
-            >
+            onPress={() => {
+              navigation.navigate('Notifications')
+            }}>
             <Image
               source={icons.notification}
               style={{
@@ -76,13 +100,12 @@ const HomeScreen = ({navigation}) => {
               }}
             />
           </TouchableOpacity>
-
-          {/* Name */}
-          {/* NotifiIcon */}
+      
         </View>
       </View>
     );
   }
+
   function renderAdvertise() {
     return (
       <View
@@ -96,19 +119,21 @@ const HomeScreen = ({navigation}) => {
           },
           styles.shadow,
         ]}>
-        <View style={{flexDirection: 'row'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+          }}>
           <View style={styles.shadow}>
             {/*    <Image
-              source={images.skiVilla}
-              resizeMode="cover"
-              style={{
-                width: 70,
-                height: 70,
-                borderRadius: 15,
-              }}
-            /> */}
+                      source={images.skiVilla}
+                      resizeMode="cover"
+                      style={{
+                        width: 70,
+                        height: 70,
+                        borderRadius: 15,
+                      }}
+                    /> */}
           </View>
-
           <View
             style={{
               marginTop: SIZES.radius,
@@ -121,7 +146,8 @@ const HomeScreen = ({navigation}) => {
               paddingBottom: SIZES.radius,
               flex: 1,
             }}>
-            <View
+            <TouchableOpacity
+              onPress={LogOutHandle}
               style={{
                 flex: 1,
                 justifyContent: 'center',
@@ -130,27 +156,27 @@ const HomeScreen = ({navigation}) => {
                 borderRightColor: COLORS.gray,
               }}>
               <Text red h3>
-                Đang chờ{' '}
+                Đang chờ
               </Text>
               <Text red body3>
-                5{' '}
+                5
               </Text>
-            </View>
-            <View
+            </TouchableOpacity>
+            <TouchableOpacity
+            onPress={SetTenantHandle}
               style={{
                 flex: 1,
                 alignItems: 'center',
               }}>
               <Text green h3>
-                Đã trả{' '}
+                SET Tenant
               </Text>
               <Text green body3>
-                7{' '}
+                7
               </Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
-
         <View
           style={{
             paddingTop: SIZES.radius,
@@ -162,15 +188,16 @@ const HomeScreen = ({navigation}) => {
             style={{
               color: COLORS.lightOrange,
             }}>
-            Đang theo dõi{' '}
+            Đang theo dõi
           </Text>
           <Text green body3>
-            7{' '}
+            7
           </Text>
         </View>
       </View>
     );
   }
+
   function renderFunction() {
     const renderItem = ({item, index}) => (
       <OptionItem
@@ -205,37 +232,68 @@ const HomeScreen = ({navigation}) => {
         }}
         //  keyExtractor={(item) => `Imp-${item.id}`}
         renderItem={renderItem}
-        style={{marginTop: SIZES.padding}}
+        style={{
+          marginTop: SIZES.padding,
+        }}
       />
     );
   }
-  function renderNotice(){
-    return(
-        <View
+
+  function renderNotice() {
+    return (
+      <View
+        style={{
+          backgroundColor: '#F2F2F2',
+        }}
+      >
+         <View
+        style={{
+          marginVertical: SIZES.padding,
+          marginHorizontal: SIZES.padding,
+          padding: 20,
+          borderRadius: SIZES.radius,
+          backgroundColor: COLORS.primaryALS,
+          ...styles.shadow,
+        }}>
+        <Text
+          style={{
+            color: COLORS.white,
+            ...FONTS.h2,
+          }}>
+          Tham gia ngay!
+        </Text>
+        <Text
+          style={{
+            marginTop: SIZES.base,
+            color: COLORS.white,
+            ...FONTS.body3,
+            lineHeight: 18,
+          }}>
+          Tham gia cộng đồng facebook để được giải đáp các thắc mắc và cùng nhau
+          trao đổi kinh nghiệm.
+        </Text>
+        <TouchableOpacity
+          style={{
+            marginTop: SIZES.base,
+          }}
+          onPress={() => {
+            handleOpenLink('fb://profile/100063781500462');
+          }}>
+          <Text
             style={{
-                marginTop:SIZES.padding,
-                marginHorizontal:SIZES.padding,
-                padding:20,
-                borderRadius:SIZES.radius,
-                backgroundColor:COLORS.primaryALS,
-                ...styles.shadow
-            }}
-        >
-            <Text style={{color:COLORS.white,...FONTS.h2}}>Tham gia ngay!</Text>
-            <Text style={{marginTop:SIZES.base,
-                    color:COLORS.white,...FONTS.body3,lineHeight:18
-                }}>Tham gia cộng đồng facebook để được giải đáp các thắc mắc và cùng nhau trao đổi kinh nghiệm.</Text>
-                      <TouchableOpacity
-                        style={{
-                            marginTop:SIZES.base
-                        }}
-                        onPress={()=>{handleOpenLink('fb://profile/100063781500462')}}
-                      >
-                          <Text style={{textDecorationLine:'underline',color:COLORS.green,...FONTS.h3}}>Tham gia</Text>
-                      </TouchableOpacity>
-        </View>
-    )
-}
+              textDecorationLine: 'underline',
+              color: COLORS.green,
+              ...FONTS.h3,
+            }}>
+            Tham gia
+          </Text>
+        </TouchableOpacity>
+      </View>
+      </View>
+     
+    );
+  }
+
   function renderService() {
     return (
       <View
@@ -284,6 +342,7 @@ const HomeScreen = ({navigation}) => {
       </View>
     );
   }
+
   function renderNews() {
     return (
       <View
@@ -338,7 +397,6 @@ const HomeScreen = ({navigation}) => {
         backgroundColor: '#F2F2F2',
       }}>
       {renderHeader()}
-      {/* Main */}
       <View
         style={{
           position: 'absolute',
@@ -355,12 +413,12 @@ const HomeScreen = ({navigation}) => {
               //paddingBottom: 30,
             }
           }>
-          {/* Advertise */}
-          {renderAdvertise()}
+          {/* Advertise */} 
+          {renderAdvertise()} 
           {/* Function */}
-          {renderFunction()}
-          {/* Facebook */}
-          {renderNotice()}
+          {renderFunction()} 
+          {/* Facebook */} 
+          {renderNotice()} 
           {renderService()}
           {renderNews()}
         </ScrollView>
@@ -382,4 +440,13 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 });
-export default HomeScreen;
+
+export default connectToRedux({
+  component: HomeScreen,
+  stateProps: state => ({
+  }),
+  dispatchProps: {
+    logoutAsync: AppActions.logoutAsync,
+    setTenant: PersistentStorageActions.setTenant,
+  },
+});
