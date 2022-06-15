@@ -6,12 +6,14 @@
  * @flow strict-local
  */
 
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import 'react-native-reanimated'
 import {
   StatusBar,
   StyleSheet,
   useColorScheme,
+  Alert,
+  AppState,
 } from 'react-native';
 import AppNavigator from './navigation/AppNavigator';
 import {
@@ -22,11 +24,12 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import {COLORS} from './constants/theme';
-import {createStore, combineReducers, applyMiddleware} from 'redux';
-import ReduxThunk from 'redux-thunk';
 import {Provider} from 'react-redux';
-import flightReducer from './stores/reducers/flights';
 import { PersistGate } from 'redux-persist/integration/react';
+import {fcmService} from './src/FCMService';
+import ForegroundHandler from './src/ForegroundHandler';
+import messaging from '@react-native-firebase/messaging';
+import {localNotificationService} from './src/LocalNotificationService';
 import { initAPIInterceptor } from './api/APIInterceptor';
 import { AppContainer } from './AppContainer';
 import { persistor,store } from './stores';
@@ -43,6 +46,7 @@ initAPIInterceptor(store);
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const [hidden, setHidden] = useState(false);
+  const [token, setToken] = useState('');
   const [statusBarStyle, setStatusBarStyle] = useState(STYLES[2]);
   const [statusBarTransition, setStatusBarTransition] = useState(
     TRANSITIONS[0],
@@ -50,9 +54,82 @@ const App = () => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+  useEffect(() => {
+    const subscription = AppState.addEventListener(
+      'change',
+      nextAppState => {},
+    );
 
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+  useEffect(() => {
+    fcmService.registerAppWithFCM();
+    fcmService.register(onRegister, onNotification, onOpenNotification);
+    fcmService.subcribeTopic('ALS');
+    localNotificationService.configure(onOpenLocalNotification, onToken);
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          console.log(
+            'Notification caused app to open from quit state:',
+            remoteMessage.notification,
+          );
+          Alert.alert(
+            'Notification caused app to open from quit state:',
+            JSON.stringify(remoteMessage),
+          );
+        }
+      });
+    function onRegister(_token) {
+      if(Platform.OS==='ios'){
+        setToken(_token);
+      }
+        console.log('[APP] onRegister------------------',_token)
+    }
+    localNotificationService.createDefaultChannels();
+    function onNotification(notify) {
+      // console.log('[App] onNotification:',notify)
+      const options = {
+        soundName: 'default',
+        playSound: 'true',
+      };
+      localNotificationService.showNotification(
+        0,
+        notify.title,
+        notify.body,
+        notify,
+        options,
+        1,
+      );
+    }
+    function onOpenLocalNotification(notify) {
+      //console.log('[App] onOpenNotification:',notify)
+     Alert.alert('Open notification:' + notify.body);
+   }
+    function onOpenNotification(notify) {
+       //console.log('[App] onOpenNotification:',notify)
+      //Alert.alert('Open notification:' + notify.body);
+    }
+    function onToken(token) {
+      if(Platform.OS==='android'){
+        setToken(token.token);
+      }
+      
+    }
+
+    //  console.log('tokeSave: ',tokeSave)
+    return () => {
+      // console.log('App unregister')
+      fcmService.unRegister();
+      localNotificationService.unregister();
+    };
+  }, []);
   return (
     <Provider store={store}>
+      <ForegroundHandler />
       <StatusBar
         animated={true}
         backgroundColor={COLORS.primaryALS}

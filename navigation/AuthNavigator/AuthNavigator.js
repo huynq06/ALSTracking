@@ -2,6 +2,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import LoginScreen from '../../screens/Auth/LoginScreen';
 import {NavigationContainer} from '@react-navigation/native';
+import CreatUpdateUserScreen from '../../screens/Auth/CreateUpdateUserScreen';
 const Stack = createNativeStackNavigator();
 
 export default function AuthStackNavigator() {
@@ -14,6 +15,14 @@ export default function AuthStackNavigator() {
         component={LoginScreen}
         options={() => ({
            title:'Login',
+          headerShown: false
+        })}
+      />
+       <Stack.Screen
+        name="Signup"
+        component={CreatUpdateUserScreen}
+        options={() => ({
+           title:'Sign Up',
           headerShown: false
         })}
       />

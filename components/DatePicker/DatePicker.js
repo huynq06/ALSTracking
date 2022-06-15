@@ -1,17 +1,18 @@
-import React, { useState,useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {COLORS, FONTS, SIZES} from '../../constants/theme';
 import icons from '../../constants/icons';
 import moment from 'moment';
-const today = new Date()
-const DatePicker = ({selectedDate,onSelectToday,onBackNext}) => {
+import Icon  from 'react-native-vector-icons/MaterialIcons'
+const today = new Date();
+const DatePicker = ({selectedDate, onSelectToday, onBackNext}) => {
   const currentDate = moment();
-  const onBackDate = () =>{
-      onBackNext('back')
-  }
-  const onNextDate = () =>{
-    onBackNext('next')
-  }
+  const onBackDate = () => {
+    onBackNext('back');
+  };
+  const onNextDate = () => {
+    onBackNext('next');
+  };
   return (
     <View
       style={{
@@ -19,9 +20,10 @@ const DatePicker = ({selectedDate,onSelectToday,onBackNext}) => {
         //paddingLeft: 15,
         paddingVertical: 10,
         flex: 5,
+        paddingHorizontal: SIZES.padding,
         //backgroundColor: COLORS.red,
       }}>
-      <TouchableOpacity
+      {/*       <TouchableOpacity
         style={{
             paddingLeft:15,
             marginRight:SIZES.padding
@@ -42,60 +44,84 @@ const DatePicker = ({selectedDate,onSelectToday,onBackNext}) => {
           }}>
           {currentDate.format('DD MMM').toUpperCase()}
         </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <View
         style={{
           flexDirection: 'row',
-          justifyContent:'center',
-          alignItems:'center',
-           flex:1
+          justifyContent: 'center',
+          alignItems: 'center',
+          flex: 1,
         }}>
-        <TouchableOpacity
-            onPress={onBackDate}
-        >
+        <TouchableOpacity onPress={onBackDate}>
           <Image
             source={icons.back}
             style={{
               width: 15,
               height: 15,
-              tintColor:COLORS.darkGray2
+              tintColor: COLORS.white,
             }}
           />
         </TouchableOpacity>
         <View
-            style={{
-                flex:1,
-                backgroundColor:COLORS.white,
-                justifyContent:'center',
-                alignItems:'center',
-            }}
-        >
+          style={{
+            flex: 1,
+            //backgroundColor:COLORS.white,
+            justifyContent: 'center',
+            alignItems: 'center',
+            // flexDirection:
+          }}>
           <Text
             style={{
-              color: COLORS.orange,
+              color: COLORS.white,
               textAlign: 'center',
               fontSize: 12,
             }}>
-            {selectedDate == today.getDate()? 'Today' :  selectedDate.format('ddd').toUpperCase()}
+            {selectedDate == today.getDate()
+              ? 'Today'
+              : selectedDate.format('ddd').toUpperCase()}
           </Text>
-          <Text
+          <View
             style={{
-              fontSize: 10,
-              color: COLORS.orange,
-            }}>
-            {selectedDate.format('DD MMM').toUpperCase()}
-          </Text>
+              flexDirection:'row',
+              justifyContent:'center',
+              alignItems:'center'
+            }}
+          >
+              <TouchableOpacity
+                style={{
+                  marginRight:SIZES.base
+                }}
+              >
+            <Image
+            source={icons.calendar}
+            style={{
+              tintColor: COLORS.white,
+              width: 20,
+              height: 20,
+            }}
+            // tintColor={isActiveIcon ? COLORS.green : COLORS.gray}
+          />
+            </TouchableOpacity>
+            <Text
+              style={{
+                fontSize: 10,
+                color: COLORS.white,
+              }}>
+              {selectedDate.format('DD MMM').toUpperCase()}
+            </Text>
+          
+          </View>
         </View>
 
-        <TouchableOpacity
-        onPress={onNextDate}>
+        <TouchableOpacity onPress={onNextDate}>
+          {/* <Icon name='home' size={20} color={COLORS.red} /> */}
           <Image
             source={icons.right_arrow}
             style={{
               width: 15,
               height: 15,
-              tintColor:COLORS.darkGray2
+              tintColor: COLORS.white,
             }}
           />
         </TouchableOpacity>
