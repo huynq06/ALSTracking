@@ -369,6 +369,158 @@ const listAwb = [
     Weight: 106.74,
   },
 ];
+const listImpAwb = [
+  {
+    MAWB_ORDER: 1,
+    ID: 5597186,
+    LAGI_MAWB_PREFIX: '180',
+    LAGI_MAWB_NO: 31668173,
+    Status: 2,
+    LAGI_HAWB: 'DEL10547301',
+    TerminalID: 1,
+    TerminalName: 'ALSC'
+  },
+  {
+    MAWB_ORDER: 2,
+    ID: 5597168,
+    LAGI_MAWB_PREFIX: '180',
+    LAGI_MAWB_NO: 31668070,
+    Status: 1,
+    LAGI_HAWB: 'HHE86932034',
+    TerminalID: 2,
+    TerminalName: 'NCTS'
+  },
+  {
+    MAWB_ORDER: 3,
+    ID: 11965394 ,
+    LAGI_MAWB_PREFIX: '180',
+    LAGI_MAWB_NO: 94060212,
+    Status: 1,
+    LAGI_HAWB: '4396859213',
+    TerminalID: 3,
+    TerminalName: 'ACSV'
+  },
+  {
+    MAWB_ORDER: 4,
+    ID: 12943298,
+    LAGI_MAWB_PREFIX: '784',
+    LAGI_MAWB_NO: 67404875,
+    Status: 1,
+    LAGI_HAWB: 'MNL017952',
+    TerminalID: 2,
+    TerminalName: 'NCTS'
+  },
+  {
+    MAWB_ORDER: 5,
+    ID: 11972325,
+    LAGI_MAWB_PREFIX: '784',
+    LAGI_MAWB_NO: 64717995,
+    Status: 1,
+    LAGI_HAWB: 'HHE86932034',
+    TerminalID: 1,
+    TerminalName: 'ALSC'
+  },
+  {
+    MAWB_ORDER: 6,
+    ID: 12245536,
+    LAGI_MAWB_PREFIX: '160',
+    LAGI_MAWB_NO: 64380606,
+    Status: 4,
+    LAGI_HAWB: 'HKGAE2110731',
+    TerminalID: 3,
+    TerminalName: 'ACSV'
+  },
+  {
+    MAWB_ORDER: 7,
+    ID: 12245975,
+    LAGI_MAWB_PREFIX: '160',
+    LAGI_MAWB_NO: 64380606,
+    Status: 1,
+    LAGI_HAWB: 'HKGAE2110775',
+    TerminalID: 2,
+    TerminalName: 'NCTS'
+  },
+  {
+    MAWB_ORDER: 8,
+    ID: 12242816,
+    LAGI_MAWB_PREFIX: '180',
+    LAGI_MAWB_NO: 31668070,
+    Status: 1,
+    LAGI_HAWB: 'PLIJP2C07975',
+    TerminalID: 2,
+    TerminalName: 'NCTS'
+  },
+  {
+    MAWB_ORDER: 9,
+    ID: 5597168,
+    LAGI_MAWB_PREFIX: '180',
+    LAGI_MAWB_NO: 31668070,
+    Status: 1,
+    LAGI_HAWB: 'HHE86932034',
+    TerminalID: 2,
+    TerminalName: 'NCTS'
+  },
+  {
+    MAWB_ORDER: 10,
+    ID: 12235056,
+    LAGI_MAWB_PREFIX: '180',
+    LAGI_MAWB_NO: 98971434,
+    Status: 5,
+    LAGI_HAWB: '',
+    TerminalID: 2,
+    TerminalName: 'NCTS'
+  },
+  {
+    MAWB_ORDER: 11,
+    ID: 12255672,
+    LAGI_MAWB_PREFIX: '160',
+    LAGI_MAWB_NO: 66108770,
+    Status: 1,
+    LAGI_HAWB: 'TSAE21080129',
+    TerminalID: 3,
+    TerminalName: 'ACSV'
+  },
+  {
+    MAWB_ORDER: 12,
+    ID: 12255011,
+    LAGI_MAWB_PREFIX: '180',
+    LAGI_MAWB_NO: 96881853,
+    Status: 3,
+    LAGI_HAWB: 'YLC04711700',
+    TerminalID: 1,
+    TerminalName: 'ALSC'
+  },
+  {
+    MAWB_ORDER: 13,
+    ID: 12255431,
+    LAGI_MAWB_PREFIX: '131',
+    LAGI_MAWB_NO: 57665322,
+    Status: 6,
+    LAGI_HAWB: '8JF0876',
+    TerminalID: 2,
+    TerminalName: 'NCTS'
+  },
+  {
+    MAWB_ORDER: 14,
+    ID: 12255602,
+    LAGI_MAWB_PREFIX: '131',
+    LAGI_MAWB_NO: 57735635,
+    Status: 2,
+    LAGI_HAWB: 'ATA001213725',
+    TerminalID: 1,
+    TerminalName: 'ALS'
+  },
+  {
+    MAWB_ORDER: 15,
+    ID: 12254379,
+    LAGI_MAWB_PREFIX: '160',
+    LAGI_MAWB_NO: 65750672,
+    Status: 1,
+    LAGI_HAWB: 'COS31004744',
+    TerminalID: 3,
+    TerminalName: 'ACSV'
+  },
+]
 const notificationList = [
   {
     ID:1,
@@ -394,5 +546,6 @@ export default {
   listAwb,
   news,
   notificationList,
-  topSearch
+  topSearch,
+  listImpAwb
 };

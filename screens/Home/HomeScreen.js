@@ -13,18 +13,35 @@ import {
 } from 'react-native';
 import icons from '../../constants/icons';
 import Text from '../../constants/Text';
+import TextButton from '../../components/TextButton'
 import OptionItem from '../../components/OptionItem';
 import CategoryCard from '../../components/CategoryCard';
 import { getTenant } from '../../api/loginApi';
 import { connectToRedux } from '../../utils/ReduxConnect';
+import moment from 'moment';
 import AppActions from '../../stores/actions/AppActions';
 import PersistentStorageActions from '../../stores/actions/PersistentStorageActions';
+import DatePicker from '../../components/DatePicker/DatePicker';
 const HomeScreen = ({navigation,logoutAsync,setTenant}) => {
   const pageID = 100063781500462; // Waltmart's ID
   const scheme = Platform.select({
     ios: 'fb://profile/',
     android: 'fb://page/',
   });
+  const today = moment();
+  const [selectedDate, setSelectedDate] = useState(today);
+  const [activeSearch, setActiveSearch] = useState(0);
+  const onSelectTodayHandle = () => {
+    setIsActiveIcon(false);
+    setSelectedDate(today);
+  };
+  const onBackNextHandle = direction => {
+    if (direction === 'next') {
+      setSelectedDate(moment(selectedDate).add(1, 'days'));
+    } else {
+      setSelectedDate(moment(selectedDate).add(-1, 'days'));
+    }
+  };
   const url = `${scheme}${pageID}`;
   const handleOpenLink = async url => {
     try {
@@ -34,6 +51,7 @@ const HomeScreen = ({navigation,logoutAsync,setTenant}) => {
     }
   };
 const LogOutHandle = () =>{
+  console.log(' logoutAsync()')
   logoutAsync()
 }
 const SetTenantHandle = ()=>{
@@ -47,41 +65,42 @@ const SetTenantHandle = ()=>{
     return (
       <View
         style={{
-          height: 140,
+          height: 130,
           backgroundColor: COLORS.primaryALS,
-          borderBottomLeftRadius: 45,
+         // borderBottomLeftRadius: 45,
         }}>
         <View
           style={{
             flexDirection: 'row',
             paddingHorizontal: SIZES.padding,
+            justifyContent:'space-between',
+          
             //backgroundColor:COLORS.red,
-            marginTop: SIZES.padding,
+            marginTop: SIZES.base,
           }}>
           {/* Avartar */}
           <TouchableOpacity
-          onPress={()=>{
-            navigation.openDrawer()
-          }}>
+          onPress={LogOutHandle}>
           <Image
-            source={images.avartar}
+            source={icons.filter}
             style={{
               resizeMode: 'contain',
-              width: 50,
+              width: 25,
 
-              height: 50,
+              height: 25,
+              tintColor:COLORS.white
             }}
           />
           </TouchableOpacity>
         
           <View
             style={{
-              flex: 1,
+              //flex: 1,
               marginLeft: SIZES.base,
               justifyContent: 'center',
             }}>
             <Text h3 white>
-              Xin chào, Admin ABC
+             Home
             </Text>
           </View>
           <TouchableOpacity
@@ -92,304 +111,68 @@ const SetTenantHandle = ()=>{
               navigation.navigate('Notifications')
             }}>
             <Image
-              source={icons.notification}
+              source={icons.search}
               style={{
-                width: 30,
-                height: 30,
+                width: 25,
+                height: 25,
                 tintColor: COLORS.white,
               }}
             />
           </TouchableOpacity>
       
         </View>
-      </View>
-    );
-  }
-
-  function renderAdvertise() {
-    return (
-      <View
-        style={[
-          {
-            marginHorizontal: SIZES.padding,
-            borderRadius: 15,
-            paddingHorizontal: SIZES.padding,
-            paddingBottom: SIZES.padding,
-            backgroundColor: COLORS.white,
-          },
-          styles.shadow,
-        ]}>
+        {/* Selector */}
         <View
           style={{
-            flexDirection: 'row',
-          }}>
-          <View style={styles.shadow}>
-            {/*    <Image
-                      source={images.skiVilla}
-                      resizeMode="cover"
-                      style={{
-                        width: 70,
-                        height: 70,
-                        borderRadius: 15,
-                      }}
-                    /> */}
-          </View>
-          <View
-            style={{
-              marginTop: SIZES.radius,
-              justifyContent: 'center',
-              flexDirection: 'row',
-              // backgroundColor:'red',
-              alignItems: 'center',
-              borderBottomWidth: 1,
-              borderBottomColor: COLORS.gray,
-              paddingBottom: SIZES.radius,
-              flex: 1,
-            }}>
-            <TouchableOpacity
-              onPress={LogOutHandle}
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRightWidth: 2,
-                borderRightColor: COLORS.gray,
-              }}>
-              <Text red h3>
-                Đang chờ
-              </Text>
-              <Text red body3>
-                5
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-            onPress={SetTenantHandle}
-              style={{
-                flex: 1,
-                alignItems: 'center',
-              }}>
-              <Text green h3>
-                SET Tenant
-              </Text>
-              <Text green body3>
-                7
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View
-          style={{
-            paddingTop: SIZES.radius,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Text
-            h3
-            style={{
-              color: COLORS.lightOrange,
-            }}>
-            Đang theo dõi
-          </Text>
-          <Text green body3>
-            7
-          </Text>
-        </View>
-      </View>
-    );
-  }
-
-  function renderFunction() {
-    const renderItem = ({item, index}) => (
-      <OptionItem
-        key={index}
-        icon={item.icon}
-        bgColor={item.bgColor}
-        label={item.description}
-        //   containerStyle={{
-        //       backgroundColor:COLORS.red
-        //   }}
-        onPress={() =>
-          navigation.navigate(item.srceenNavigagor, {
-            screen: item.srceenNavigagor,
-          })
-        }
-      />
-    );
-    return (
-      <FlatList
-        data={dummyData.featuresImpData}
-        numColumns={4}
-        listKey={(item, index) => 'D' + index.toString()}
-        contentContainerStyle={{
-          paddingHorizontal: SIZES.padding,
-          paddingBottom: SIZES.padding,
-          backgroundColor: '#F2F2F2',
-          flex: 1,
-        }}
-        columnWrapperStyle={{
-          justifyContent: 'space-between',
-          marginTop: SIZES.padding,
-        }}
-        //  keyExtractor={(item) => `Imp-${item.id}`}
-        renderItem={renderItem}
-        style={{
-          marginTop: SIZES.padding,
-        }}
-      />
-    );
-  }
-
-  function renderNotice() {
-    return (
-      <View
-        style={{
-          backgroundColor: '#F2F2F2',
-        }}
-      >
-         <View
-        style={{
-          marginVertical: SIZES.padding,
-          marginHorizontal: SIZES.padding,
-          padding: 20,
-          borderRadius: SIZES.radius,
-          backgroundColor: COLORS.primaryALS,
-          ...styles.shadow,
-        }}>
-        <Text
-          style={{
-            color: COLORS.white,
-            ...FONTS.h2,
-          }}>
-          Tham gia ngay!
-        </Text>
-        <Text
-          style={{
-            marginTop: SIZES.base,
-            color: COLORS.white,
-            ...FONTS.body3,
-            lineHeight: 18,
-          }}>
-          Tham gia cộng đồng facebook để được giải đáp các thắc mắc và cùng nhau
-          trao đổi kinh nghiệm.
-        </Text>
-        <TouchableOpacity
-          style={{
-            marginTop: SIZES.base,
+            paddingHorizontal:SIZES.padding,
+            marginTop:SIZES.base,
+            flexDirection:'row',
+            justifyContent:'space-between'
           }}
-          onPress={() => {
-            handleOpenLink('fb://profile/100063781500462');
-          }}>
-          <Text
-            style={{
-              textDecorationLine: 'underline',
-              color: COLORS.green,
-              ...FONTS.h3,
-            }}>
-            Tham gia
-          </Text>
-        </TouchableOpacity>
-      </View>
-      </View>
-     
-    );
-  }
-
-  function renderService() {
-    return (
-      <View
-        style={{
-          //marginTop: SIZES.padding,
-          backgroundColor: COLORS.white,
-          padding: SIZES.padding,
-        }}>
-        {/* Title */}
-        <View
-          style={{
-            flexDirection: 'row',
-          }}>
-          <Text h3 gray>
-            Dịch vụ cung cấp
-          </Text>
+        >
+            <TextButton
+            label='Import'  
+            buttonContainerStyle={{
+              backgroundColor: '#597EAA',
+              width:100,
+              height:35,
+              justifyContent:'center',
+              borderRadius: SIZES.radius
+            }}
+            ></TextButton>
+                 <TextButton
+            label='Export'  
+            buttonContainerStyle={{
+              backgroundColor: '#597EAA',
+              width:100,
+              height:35,
+              justifyContent:'center',
+              borderRadius: SIZES.radius
+            }}
+            ></TextButton>
+                 <TextButton
+            label='Order'  
+            buttonContainerStyle={{
+              backgroundColor: '#597EAA',
+              width:100,
+              height:35,
+              justifyContent:'center',
+              borderRadius: SIZES.radius
+            }}
+            ></TextButton>
         </View>
-        <FlatList
-          horizontal
-          data={dummyData.categories}
-          listKey="Categories"
-          keyExtractor={item => `Categories-${item.id}`}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{
-            marginTop: SIZES.radius,
-          }}
-          renderItem={({item, index}) => (
-            <CategoryCard
-              sharedElementPrefix="Home"
-              category={item}
-              containerStyle={{
-                marginLeft: index == 0 ? 0 : SIZES.base,
-                marginRight:
-                  index == dummyData.categories.length - 1 ? SIZES.padding : 0,
-              }}
-              onPress={() =>
-                navigation.navigate('News', {
-                  url: item.uri,
-                  title: 'Dịch vụ',
-                  //sharedElementPrefix: 'Home',
-                })
-              }
-            />
-          )}
-        />
+        {/* Date Picker */}
+        <DatePicker
+            selectedDate={selectedDate}
+            onSelectToday={onSelectTodayHandle}
+            onBackNext={onBackNextHandle}
+          />
+      
       </View>
     );
   }
 
-  function renderNews() {
-    return (
-      <View
-        style={{
-          backgroundColor: COLORS.white,
-          paddingHorizontal: SIZES.padding,
-        }}>
-        {/* Title */}
-        <View
-          style={{
-            flexDirection: 'row',
-          }}>
-          <Text h3 gray>
-            Tin tức
-          </Text>
-        </View>
-        <FlatList
-          horizontal
-          data={dummyData.news}
-          listKey="Categories"
-          keyExtractor={item => `Categories-${item.id}`}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{
-            marginTop: SIZES.radius,
-          }}
-          renderItem={({item, index}) => (
-            <CategoryCard
-              sharedElementPrefix="Home"
-              category={item}
-              containerStyle={{
-                marginLeft: index == 0 ? 0 : SIZES.base,
-                marginRight:
-                  index == dummyData.categories.length - 1 ? SIZES.padding : 0,
-              }}
-              onPress={() =>
-                navigation.navigate('News', {
-                  url: item.uri,
-                  title: 'Tin tức',
-                  //sharedElementPrefix: 'Home',
-                })
-              }
-            />
-          )}
-        />
-      </View>
-    );
-  }
+
   return (
     <View
       style={{
@@ -397,32 +180,15 @@ const SetTenantHandle = ()=>{
         backgroundColor: '#F2F2F2',
       }}>
       {renderHeader()}
-      <View
-        style={{
-          position: 'absolute',
-          //backgroundColor:COLORS.red,
-          height: 500,
-          //flex:1,
-          top: 90,
-          left: 0,
-          right: 0,
-        }}>
-        <ScrollView
+      <ScrollView
           contentContainerStyle={
             {
               //paddingBottom: 30,
             }
           }>
-          {/* Advertise */} 
-          {renderAdvertise()} 
-          {/* Function */}
-          {renderFunction()} 
-          {/* Facebook */} 
-          {renderNotice()} 
-          {renderService()}
-          {renderNews()}
+
+        
         </ScrollView>
-      </View>
     </View>
   );
 };

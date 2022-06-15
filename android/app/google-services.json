@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "451258405710",
+    "project_id": "alsbase-81c48",
+    "storage_bucket": "alsbase-81c48.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:451258405710:android:0dc8c57d3cb197af21841f",
+        "android_client_info": {
+          "package_name": "com.alstracking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "451258405710-5sf2d5n69imnmtfe50lus1gbrtol5etd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANBJKzsxLaznq1FpLO4sfHd_ar0llhhgs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "451258405710-5sf2d5n69imnmtfe50lus1gbrtol5etd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
