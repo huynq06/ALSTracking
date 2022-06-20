@@ -8,6 +8,7 @@ import {
     ActivityIndicator,
     Alert,
     Keyboard,
+    ScrollView
   } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getEnvVars } from "../../Environment";
@@ -18,6 +19,7 @@ import { SIZES,COLORS,FONTS } from '../../constants/theme';
 import icons from "../../constants/icons";
 import Text from '../../constants/Text'
 import PersistentStorageActions from "../../stores/actions/PersistentStorageActions";
+import { createUser } from '../../api/IdentityAPI';
 import { connectToRedux } from "../../utils/ReduxConnect";
 import TextButton from '../../components/TextButton';
 import {useDispatch} from 'react-redux';
@@ -26,24 +28,34 @@ import AuthLayout from './AuthLayout';
 import utils from '../../utils/Utils'
 import CustomSwitch from '../../components/CustomSwitch';
 import CreateUpdateUserForm from './CreateUpdateUserForm';
-
-const CreatUpdateUserScreen = ({navigation}) =>{
+import LoadingActions from '../../stores/actions/LoadingActions';
+import { createLoadingSelector } from '../../stores/selectors/LoadingSelectors';
+const CreatUpdateUserScreen = ({navigation,startLoading, stopLoading }) =>{
 
     function isEnableSignUp(){
         return true;
     }
-    const signupHandle = () =>{
-
+    const signupHandle = data =>{
+        startLoading({ key: 'saveUser' });
+        console.log('signupHandle',data)
+      let request;
+        request = createUser(data);
+        request
+        .then(() => {
+          navigation.goBack();
+        })
+        .finally(() => stopLoading({ key: 'saveUser' }));
+       
     }
     return(
         <AuthLayout
         title="Getting Started"
         subTitle="Create an account to continue!"
       >
-        <View
+        <ScrollView
           style={{
             flex: 1,
-            margin: SIZES.padding,
+            marginTop: SIZES.padding,
           }}
         >
              <CreateUpdateUserForm submit={signupHandle} />
@@ -65,9 +77,16 @@ const CreatUpdateUserScreen = ({navigation}) =>{
               <Text primary h3>Sign In</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </ScrollView>
       </AuthLayout>
     )
 }
 
-export default CreatUpdateUserScreen;
+export default connectToRedux({
+    component: CreatUpdateUserScreen,
+    stateProps: state => ({ loading: createLoadingSelector()(state) }),
+    dispatchProps: {
+      startLoading: LoadingActions.start,
+      stopLoading: LoadingActions.stop,
+    },
+  });

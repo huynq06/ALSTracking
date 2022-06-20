@@ -10,6 +10,7 @@ import {
     Keyboard,
   } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+//import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { getEnvVars } from "../../Environment";
 import { login } from "../../api/loginApi";
 import { getTenant } from "../../api/loginApi";
@@ -24,7 +25,9 @@ import {useDispatch} from 'react-redux';
 import FormInput from '../../components/FormInput';
 import AuthLayout from './AuthLayout';
 import utils from '../../utils/Utils'
+import IconTextButton from '../../components/IconTextButton';
 import CustomSwitch from '../../components/CustomSwitch';
+import Authenticated from './Authenticated';
 const LoginScreen = ({setToken,setTenant,navigation}) =>{
     const SetTenantHandle = () =>{
         getTenant('ALSW_UAT').then(({ success, ...data }) => {
@@ -53,6 +56,7 @@ const LoginScreen = ({setToken,setTenant,navigation}) =>{
         })
     }
     const [email, setEmail] = useState('');
+    const [authenticated, setAuthenticated] = useState(false);
     const [emaiError, setEmailError] = useState('');
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
@@ -63,6 +67,46 @@ const LoginScreen = ({setToken,setTenant,navigation}) =>{
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
+/*     async function signIn() {
+      try {
+        // Attempt login with permissions
+        const result = await LoginManager.logInWithPermissions([
+          'public_profile',
+          'email',
+        ]);
+  
+        if (result.isCancelled) {
+          throw 'User cancelled the login process';
+        }
+  
+        // Once signed in, get the users AccesToken
+        const data = await AccessToken.getCurrentAccessToken();
+  
+        if (!data) {
+          throw 'Something went wrong obtaining access token';
+        }
+  
+        // Create a Firebase credential with the AccessToken
+        const facebookCredential = auth.FacebookAuthProvider.credential(
+          data.accessToken,
+        );
+  
+        // Sign-in the user with the credential
+        return auth().signInWithCredential(facebookCredential);
+      } catch (error) {
+        alert(error);
+      }
+    } */
+    // auth().onAuthStateChanged((user) => {
+    //   if (user) {
+    //     setAuthenticated(user);
+    //   } else {
+    //     setAuthenticated(user);
+    //   }
+    // });
+    // if (authenticated) {
+    //   return <Authenticated />;
+    // }
     function isEnableSignIn() {
       return email != '' && password != '' && emaiError == '';
     }
@@ -262,6 +306,8 @@ const LoginScreen = ({setToken,setTenant,navigation}) =>{
               onPress={handleLogin}
             />
           )}
+            
+            
           {/*  <TextButton
             label="Sign In"
             isLoading = {isLoading}
@@ -294,7 +340,7 @@ const LoginScreen = ({setToken,setTenant,navigation}) =>{
           </View>
           {/* Login with Google & Facebook */}
           <View>
-            {/*  <IconTextButton
+             <IconTextButton
               label="Continue with Facebook"
               customContainerStyle={{
                 height:50,
@@ -311,7 +357,8 @@ const LoginScreen = ({setToken,setTenant,navigation}) =>{
                 fontSize: SIZES.body3
               }}
               onPress={()=>{console.log('log in with fb')}}
-            /> */}
+            /> 
+             </View>
             {/*   <IconTextButton
               label="Continue with Google"
               customContainerStyle={{
@@ -329,8 +376,9 @@ const LoginScreen = ({setToken,setTenant,navigation}) =>{
                 fontSize: SIZES.body3
               }}
               onPress={()=>{console.log('log in with fb')}}
-            /> */}
+            />
           </View>
+           <View>
           {/* <View
             style={{
               flexDirection:'row',

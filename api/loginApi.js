@@ -17,6 +17,20 @@ api({
     },
     baseURL: oAuthConfig.issuer,
   }).then(({data}) => data);
+export const register = ({userName,emailAddress,password}) =>
+api({
+    method: 'POST',
+    url: '/api/account/login',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: {
+      "userName": userName,
+      "emailAddress": emailAddress,
+      "password": password,
+    },
+    baseURL: oAuthConfig.issuer,
+  }).then(({data}) => data);
 // export const login = ({ username, password }) =>
 //   api({
 //     method: 'POST',

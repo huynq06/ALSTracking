@@ -6,6 +6,7 @@ import AuthNavigator from "../navigation/AuthNavigator/AuthNavigator";
 import {createTokenSelector} from '../stores/selectors/PersistentStorageSelectors'
 import { connectToRedux } from "../utils/ReduxConnect";
 import PersistentStorageActions from "../stores/actions/PersistentStorageActions";
+import Loading from "../components/Loading/Loading";
 import { isTokenValid } from "../utils/TokenUtils";
 const AppContainer = ({token,setToken}) => {
     const isValid = useMemo(() => isTokenValid(token), [token]);
@@ -17,6 +18,7 @@ const AppContainer = ({token,setToken}) => {
     return(
         <>
          {isValid ? <AppNavigator/> : <AuthNavigator/>}
+         <Loading />
         </>
     )
 }
