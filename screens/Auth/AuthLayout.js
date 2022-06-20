@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react';
-import {View, ImageBackground, Image, Animated, Keyboard,KeyboardAvoidingView} from 'react-native';
+import {View, ImageBackground, Image, Animated, Keyboard,KeyboardAvoidingView,ScrollView} from 'react-native';
 import images from '../../constants/images';
 import { SIZES,COLORS } from '../../constants/theme';
 import Text from '../../constants/Text'
@@ -29,16 +29,17 @@ const AuthLayout = ({title, subTitle, titleContailner, children}) => {
           backgroundColor: COLORS.white,
         }}>
         <KeyboardAwareScrollView
-          keyboardDismissMode="on-drag"
+        //behavior='padding'
+          //keyboardDismissMode="on-drag"
           contentContainerStyle={{
             flex: 1,
             paddingHorizontal: SIZES.padding,
           }}>
           <View
-            style={{
-              alignItems: 'center',
-              //  backgroundColor:COLORS.red
-            }}>
+          style={{      
+            alignItems:'center'
+          }}
+           >
             {/* Logo */}
             <Image
               source={images.logoALS_full}

@@ -2,7 +2,7 @@ import {call, put, takeLatest, takeEvery, all} from 'redux-saga/effects';
 import { logout } from '../../api/loginApi';
 import AppActions from '../actions/AppActions';
 import PersistentStorageActions from '../actions/PersistentStorageActions';
-
+import LoadingActions from '../actions/LoadingActions';
 
 
 function* logoutWatcher() {
