@@ -21,7 +21,11 @@ import { connectToRedux } from '../../utils/ReduxConnect';
 import moment from 'moment';
 import AppActions from '../../stores/actions/AppActions';
 import PersistentStorageActions from '../../stores/actions/PersistentStorageActions';
-import DatePicker from '../../components/DatePicker/DatePicker';
+import DatePicker from '../../components/DatePicker/DatePicker';import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 const HomeScreen = ({navigation,logoutAsync,setTenant}) => {
   const pageID = 100063781500462; // Waltmart's ID
   const scheme = Platform.select({
@@ -50,9 +54,11 @@ const HomeScreen = ({navigation,logoutAsync,setTenant}) => {
       throw new Error('URI cant open:' + url);
     }
   };
-const LogOutHandle = () =>{
+const LogOutHandle = async () =>{
   console.log(' logoutAsync()')
-  logoutAsync()
+  await GoogleSignin.signOut();
+  //logoutAsync()
+
 }
 const SetTenantHandle = ()=>{
   getTenant('ALSW_UAT').then(({ success, ...data }) => {
