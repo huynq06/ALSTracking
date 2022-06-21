@@ -11,6 +11,7 @@ import {
   } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import { LoginManager, AccessToken } from 'react-native-fbsdk';
+import {LoginManager,AccessToken} from 'react-native-fbsdk-next'
 import { getEnvVars } from "../../Environment";
 import { login } from "../../api/loginApi";
 import { getTenant } from "../../api/loginApi";
@@ -28,6 +29,7 @@ import utils from '../../utils/Utils'
 import IconTextButton from '../../components/IconTextButton';
 import CustomSwitch from '../../components/CustomSwitch';
 import Authenticated from './Authenticated';
+import auth from '@react-native-firebase/auth'
 const LoginScreen = ({setToken,setTenant,navigation}) =>{
     const SetTenantHandle = () =>{
         getTenant('ALSW_UAT').then(({ success, ...data }) => {
@@ -67,7 +69,7 @@ const LoginScreen = ({setToken,setTenant,navigation}) =>{
     const [error, setError] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
-/*     async function signIn() {
+    async function signIn() {
       try {
         // Attempt login with permissions
         const result = await LoginManager.logInWithPermissions([
@@ -96,16 +98,27 @@ const LoginScreen = ({setToken,setTenant,navigation}) =>{
       } catch (error) {
         alert(error);
       }
-    } */
-    // auth().onAuthStateChanged((user) => {
-    //   if (user) {
-    //     setAuthenticated(user);
-    //   } else {
-    //     setAuthenticated(user);
-    //   }
-    // });
+    }
+  
+    auth().onAuthStateChanged((user) => {
+      if (user) {
+        //setAuthenticated(user);
+        setToken({
+          "access_token": "",
+          "expires_in": 31536000,
+          "token_type": "Bearer",
+          "refresh_token": "",
+          "expire_time": new Date().valueOf() + 31536000,
+          "scope": undefined,
+      })
+      } else {
+        //setAuthenticated(user);
+      }
+    });
+    const user = auth().currentUser;
+    console.log('User Login --------------------------------------',user)
     // if (authenticated) {
-    //   return <Authenticated />;
+     
     // }
     function isEnableSignIn() {
       return email != '' && password != '' && emaiError == '';
@@ -356,7 +369,7 @@ const LoginScreen = ({setToken,setTenant,navigation}) =>{
                 color:COLORS.white,
                 fontSize: SIZES.body3
               }}
-              onPress={()=>{console.log('log in with fb')}}
+              onPress={signIn}
             /> 
              </View>
             {/*   <IconTextButton
