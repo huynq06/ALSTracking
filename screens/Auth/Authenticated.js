@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Button } from 'react-native';
-//import auth from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 
 export default function Authenticated(props) {
-  const user = {};
+  const user = auth().currentUser;
   return (
     <View style={styles.screen}>
       <Text style={styles.title}>You're Logged In</Text>
