@@ -535,6 +535,78 @@ const notificationList = [
     created:'64/05/2022 16:00'
   }
 ]
+const flightSchedules = [
+  {
+    flightID:1,
+    warehouseID:1,
+    flightNo: 'KE361',
+    ETA: '14:30',
+    ATA:'20:30',
+    FlightStatus:1,
+  },
+  {
+    flightID:2,
+    warehouseID:3,
+    flightNo: 'CX3238',
+    ETA: '14:30',
+    ATA:'20:30',
+    FlightStatus:2,
+  }, {
+    flightID:3,
+    warehouseID:3,
+    flightNo: 'JL751',
+    ETA: '14:30',
+    ATA:'20:30',
+    FlightStatus:3,
+  },
+  {
+    flightID:4,
+    warehouseID:1,
+    flightNo: 'KE361',
+    ETA: '14:30',
+    ATA:'20:30',
+    FlightStatus:1,
+  }, {
+    flightID:5,
+    warehouseID:1,
+    flightNo: 'KE361',
+    ETA: '14:30',
+    ATA:'20:30',
+    FlightStatus:1,
+  },
+  {
+    flightID:6,
+    warehouseID:1,
+    flightNo: 'KE361',
+    ETA: '14:30',
+    ATA:'20:30',
+    FlightStatus:1,
+  },
+  {
+    flightID:7,
+    warehouseID:1,
+    flightNo: 'KE361',
+    ETA: '14:30',
+    ATA:'20:30',
+    FlightStatus:1,
+  },
+  {
+    flightID:8,
+    warehouseID:1,
+    flightNo: 'KE361',
+    ETA: '14:30',
+    ATA:'20:30',
+    FlightStatus:1,
+  },
+  {
+    flightID:9,
+    warehouseID:1,
+    flightNo: 'KE362',
+    ETA: '14:30',
+    ATA:'20:30',
+    FlightStatus:1,
+  }
+]
 export default {
   myProfile,
   categories,
@@ -547,5 +619,6 @@ export default {
   news,
   notificationList,
   topSearch,
-  listImpAwb
+  listImpAwb,
+  flightSchedules
 };

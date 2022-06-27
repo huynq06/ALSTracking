@@ -223,7 +223,8 @@ const LoginScreen = ({setToken, setTenant, navigation}) => {
       <View
         style={{
           flex: 1,
-          margin: SIZES.padding,
+          marginHorizontal: SIZES.padding,
+          marginVertical: SIZES.base
         }}>
         {/* Email */}
         <FormInput

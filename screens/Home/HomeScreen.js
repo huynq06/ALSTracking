@@ -21,7 +21,8 @@ import { connectToRedux } from '../../utils/ReduxConnect';
 import moment from 'moment';
 import AppActions from '../../stores/actions/AppActions';
 import PersistentStorageActions from '../../stores/actions/PersistentStorageActions';
-import DatePicker from '../../components/DatePicker/DatePicker';import {
+import DatePicker from '../../components/DatePicker/DatePicker';
+import {
   GoogleSignin,
   GoogleSigninButton,
   statusCodes,

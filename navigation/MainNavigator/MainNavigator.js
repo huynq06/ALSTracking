@@ -10,6 +10,7 @@ import {COLORS, FONTS, SIZES} from '../../constants/theme';
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import icons from '../../constants/icons';
 import ProfileScreen from '../../screens/Profile/ProfileScreen';
+import ScheduleScreen from '../../screens/Schedule/ScheduleScreen';
 const Tab = createBottomTabNavigator();
 const MainNavigator = () => {
   const CustomTabBar = props => {
@@ -87,6 +88,35 @@ const MainNavigator = () => {
           // tabBarButton:(props)=>(
           //     <TabBarCustomButton {...props} />
           // )
+        }}
+      />
+      <Tab.Screen
+        name="Schedule"
+        component={ScheduleScreen}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Image
+                source={icons.flightDepart}
+                resizeMode="contain"
+                style={{
+                  width: 27,
+                  height: 40,
+                  tintColor: focused ? COLORS.primaryALS : COLORS.darkGray,
+                }}
+              />
+              <Text
+                style={{
+                  color: focused ? COLORS.secondaryALS : COLORS.darkGray,
+                }}>
+                Setting
+              </Text>
+            </View>
+          ),
         }}
       />
       <Tab.Screen

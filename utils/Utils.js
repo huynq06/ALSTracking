@@ -32,11 +32,22 @@ function validatePassword(value, setPasswordError) {
         setPasswordError("Error,Password is not Strong")
     }
 }
-
+function getImgUrlByWareHouse(warehouseId){
+    if(warehouseId==1){
+        return '../../assets/images/sad.png'
+    }
+    if(warehouseId==2){
+        return '../../assets/images/smile.png'
+    }
+    if(warehouseId==3){
+        return '../../assets/images/surprised.png'
+    }
+}
 const utils = {
     isValidEmail,
     validateEmail,
-    validatePassword
+    validatePassword,
+    getImgUrlByWareHouse
 };
 
 export default utils;
