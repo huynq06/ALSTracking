@@ -16,20 +16,13 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
-import utils from '../../utils/Utils';
 import icons from '../../constants/icons';
 import Text from '../../constants/Text';
-import TextButton from '../../components/TextButton';
-import OptionItem from '../../components/OptionItem';
-import CategoryCard from '../../components/CategoryCard';
-import {getTenant} from '../../api/loginApi';
-import {connectToRedux} from '../../utils/ReduxConnect';
 import moment from 'moment';
 import AppActions from '../../stores/actions/AppActions';
 import PersistentStorageActions from '../../stores/actions/PersistentStorageActions';
 import DatePicker from '../../components/DatePicker/DatePicker';
 import LineDivider from '../../components/LineDivider';
-import {VISITOR_KEYS} from '@babel/types';
 import FilterModal from './FilterModal';
 const ScheduleScreen = ({navigation}) => {
   const today = moment();
@@ -188,7 +181,7 @@ const ScheduleScreen = ({navigation}) => {
           ItemSeparatorComponent={() => (
             <LineDivider
               lineStyle={{
-                backgroundColor: COLORS.darkGray,
+                backgroundColor: COLORS.lightGray1,
               }}
             />
           )}
@@ -216,8 +209,8 @@ const ScheduleScreen = ({navigation}) => {
                     }}
                 >
                   <Text
-                    h1
-                    black
+                    h2
+                    darkGray2
                     style={{
                       marginLeft: SIZES.padding,
                     }}>
@@ -263,9 +256,11 @@ const ScheduleScreen = ({navigation}) => {
                 </View>
                 <Image
                         source={icons.right_arrow}
+                        
                         style={{
                             width:17,
-                            height:17
+                            height:17,
+                            tintColor: COLORS.gray
                         }}
                     />
               </View>

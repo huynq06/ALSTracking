@@ -452,7 +452,7 @@ const listImpAwb = [
   },
   {
     MAWB_ORDER: 9,
-    ID: 5597168,
+    ID: 5597169,
     LAGI_MAWB_PREFIX: '180',
     LAGI_MAWB_NO: 31668070,
     Status: 1,

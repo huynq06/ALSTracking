@@ -1,31 +1,16 @@
 import React, {useRef, useState, useEffect, useCallback} from 'react';
 import {
   View,
-  ImageBackground,
   Image,
-  Animated,
   TouchableOpacity,
-  ActivityIndicator,
-  Alert,
-  Keyboard,
   StyleSheet,
   KeyboardAvoidingView,
-  TextInput,
 } from 'react-native';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getEnvVars} from '../../Environment';
-import {login} from '../../api/loginApi';
-import {getTenant} from '../../api/loginApi';
-import images from '../../constants/images';
 import {SIZES, COLORS, FONTS} from '../../constants/theme';
 import icons from '../../constants/icons';
-import Text from '../../constants/Text';
-import PersistentStorageActions from '../../stores/actions/PersistentStorageActions';
-import {connectToRedux} from '../../utils/ReduxConnect';
 import TextButton from '../../components/TextButton';
-import {useDispatch} from 'react-redux';
 import FormInputMik from '../../components/FormInputMik';
 import AuthLayout from './AuthLayout';
 import utils from '../../utils/Utils';

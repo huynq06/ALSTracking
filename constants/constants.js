@@ -133,30 +133,79 @@ const tags = [
 const track_order_status = [
   {
     id: 1,
-    title: 'Đã nhận hàng',
+    title: 'Landed',
     sub_title: '06:30 04/05/2022',
   },
   {
     id: 2,
-    title: 'Đang khai thác',
+    title: 'Received',
     sub_title: '10:45 04/05/2022',
   },
   {
     id: 3,
-    title: 'Khai thác xong',
+    title: 'Transport',
     sub_title: '20:37 04/05/2022',
   },
-  {
-    id: 4,
-    title: 'Delivered',
-    sub_title: '22:58 04/05/2022',
-  },
-  // {
-  //     id: 5,
-  //     title: "Rate Us",
-  //     sub_title: "Help us improve our service"
-  // }
 ];
+const tracking={
+  cargo_Terminal : {
+    active:false,
+    trackList: [
+      {
+        id: 1,
+        title: 'Landed',
+        sub_title: '06:30 04/05/2022',
+        active:false,
+      },
+      {
+        id: 2,
+        title: 'Received',
+        sub_title: '10:45 04/05/2022',
+        active:false,
+      },
+      {
+        id: 3,
+        title: 'Transport',
+        sub_title: '20:37 04/05/2022',
+        active:false,
+      },
+    ]
+  },
+  offCargoTerminal : {
+    active:true,
+    trackList: [
+      {
+        id: 1,
+        title: 'Đã đến kho',
+        sub_title: '06:30 04/05/2022',
+        active:false,
+      },
+      {
+        id: 2,
+        title: 'Storage',
+        sub_title: '10:45 04/05/2022',
+        active:true,
+      },
+    ]
+  },
+  Delivery : {
+    active:false,
+    trackList: [
+      {
+        id: 1,
+        title: 'status 1',
+        sub_title: '06:30 04/05/2022',
+        active:false,
+      },
+      {
+        id: 2,
+        title: 'status 2',
+        sub_title: '10:45 04/05/2022',
+        active:false,
+      },
+    ]
+  }
+}
 const track_custom_status = [
   {
     id: 1,
@@ -260,4 +309,5 @@ export default {
   track_awb_status,
   track_custom_export_status,
   locations,
+  tracking
 };

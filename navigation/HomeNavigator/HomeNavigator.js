@@ -7,6 +7,8 @@ import FlightImportScreen from '../../screens/FlightImport/FlightImportScreen';
 import NotificationsScreen from '../../screens/Notifications/NotificationsScreen';
 import UsersScreen from '../../screens/User/UserScreen';
 import FollowScreen from '../../screens/Follow/FollowScreen';
+import AddTrackingScreen from '../../screens/AddTracking/AddTrackingScreen';
+import TrackingDetailScreen from '../../screens/TrackingDetail/TrackingDetailScreen';
 const Stack = createNativeStackNavigator();
 const HomeNavigator = () => {
   return (
@@ -21,6 +23,8 @@ const HomeNavigator = () => {
       <Stack.Screen name="FlightImport" component={FlightImportScreen} />
       <Stack.Screen name="Notifications" component={UsersScreen} />
       <Stack.Screen name="Follow" component={FollowScreen} />
+      <Stack.Screen name="AddTracking" component={AddTrackingScreen} />
+      <Stack.Screen name="TrackingDetail" component={TrackingDetailScreen} />
     </Stack.Navigator>
   );
 };

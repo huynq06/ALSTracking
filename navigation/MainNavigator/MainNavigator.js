@@ -11,6 +11,7 @@ import {isIphoneX} from 'react-native-iphone-x-helper';
 import icons from '../../constants/icons';
 import ProfileScreen from '../../screens/Profile/ProfileScreen';
 import ScheduleScreen from '../../screens/Schedule/ScheduleScreen';
+import MoreScreen from '../../screens/More/MoreScreen';
 const Tab = createBottomTabNavigator();
 const MainNavigator = () => {
   const CustomTabBar = props => {
@@ -113,7 +114,7 @@ const MainNavigator = () => {
                 style={{
                   color: focused ? COLORS.secondaryALS : COLORS.darkGray,
                 }}>
-                Setting
+                Schedule
               </Text>
             </View>
           ),
@@ -121,7 +122,7 @@ const MainNavigator = () => {
       />
       <Tab.Screen
         name="Setting"
-        component={ProfileScreen}
+        component={MoreScreen}
         options={{
           tabBarIcon: ({focused}) => (
             <View
@@ -130,7 +131,7 @@ const MainNavigator = () => {
                 justifyContent: 'center',
               }}>
               <Image
-                source={icons.setting}
+                source={icons.more}
                 resizeMode="contain"
                 style={{
                   width: 27,
@@ -142,7 +143,7 @@ const MainNavigator = () => {
                 style={{
                   color: focused ? COLORS.secondaryALS : COLORS.darkGray,
                 }}>
-                Setting
+                More
               </Text>
             </View>
           ),
