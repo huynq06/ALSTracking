@@ -16,6 +16,7 @@ import {
   AppState,
 } from 'react-native';
 import AppNavigator from './navigation/AppNavigator';
+import {SafeAreaProvider} from 'react-native-safe-area-context'
 import {
   Colors,
   DebugInstructions,
@@ -47,7 +48,7 @@ const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const [hidden, setHidden] = useState(false);
   const [token, setToken] = useState('');
-  const [statusBarStyle, setStatusBarStyle] = useState(STYLES[2]);
+  const [statusBarStyle, setStatusBarStyle] = useState(STYLES[1]);
   const [statusBarTransition, setStatusBarTransition] = useState(
     TRANSITIONS[0],
   );
@@ -129,10 +130,12 @@ const App = () => {
   }, []);
   return (
     <Provider store={store}>
+      
       <ForegroundHandler />
+      <SafeAreaProvider>
       <StatusBar
         animated={true}
-        backgroundColor={COLORS.primaryALS}
+        backgroundColor='white'
         barStyle={statusBarStyle}
         showHideTransition={statusBarTransition}
         hidden={hidden}
@@ -143,6 +146,8 @@ const App = () => {
             <AppContainer/>
         
         </PersistGate>
+      </SafeAreaProvider>
+     
     </Provider>
   );
 };

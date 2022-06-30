@@ -85,7 +85,7 @@ const AddTrackingForm = ({submit,tracking={}}) =>{
                     }}
                     buttonContainerStyle={{
                         height:40,
-                        paddingHorizontal:55,
+                        width: SIZES.width/2 - 40,
                         borderRadius:SIZES.radius,
                         borderWidth: 1,
                         borderColor: COLORS.gray,
@@ -100,7 +100,7 @@ const AddTrackingForm = ({submit,tracking={}}) =>{
                     }}
                     buttonContainerStyle={{
                         height:40,
-                        paddingHorizontal:55,
+                        width: SIZES.width/2 - 40,
                         borderRadius:SIZES.radius,
                         borderWidth: 1,
                         borderColor: COLORS.gray,

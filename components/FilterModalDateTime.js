@@ -10,11 +10,8 @@ import {
   Text,
 } from 'react-native';
 import TextButton from './TextButton';
-import icons from '../constants/icons';
 import { SIZES,FONTS,COLORS } from '../constants/theme';
-import base64 from 'base-64';
 import CalendarPicker from 'react-native-calendar-picker';
-import FilterItem from './FilterItem';
 const FilterModalDateTime = ({filterModalSharedValue1, filterModalSharedValue2,onDateChangeFunc}) => {
   const [selected, setSelect] = useState('Import');
   const [selectedStartDate, setSelectedStartDate] = useState(null);
@@ -150,7 +147,7 @@ const FilterModalDateTime = ({filterModalSharedValue1, filterModalSharedValue2,o
             {
               position: 'absolute',
               bottom: 0,
-              height: SIZES.height * 0.6,
+              height: SIZES.height * 0.8,
               width: SIZES.width,
               borderTopLeftRadius: 30,
               borderTopRightRadius: 30,

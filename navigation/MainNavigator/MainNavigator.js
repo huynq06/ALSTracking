@@ -12,6 +12,7 @@ import icons from '../../constants/icons';
 import ProfileScreen from '../../screens/Profile/ProfileScreen';
 import ScheduleScreen from '../../screens/Schedule/ScheduleScreen';
 import MoreScreen from '../../screens/More/MoreScreen';
+import FollowScreen from '../../screens/Follow/FollowScreen';
 const Tab = createBottomTabNavigator();
 const MainNavigator = () => {
   const CustomTabBar = props => {

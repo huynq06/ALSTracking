@@ -127,7 +127,7 @@ import Animated, {
               {
                 position: 'absolute',
                 bottom: 0,
-                height: SIZES.height * 0.7,
+                height: SIZES.height * 0.8,
                 width: SIZES.width,
                 borderTopLeftRadius: 30,
                 borderTopRightRadius: 30,

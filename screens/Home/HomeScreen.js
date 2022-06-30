@@ -59,8 +59,8 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
   };
   const LogOutHandle = async () => {
     console.log(' logoutAsync()');
-    await GoogleSignin.signOut();
-    //logoutAsync()
+    //await GoogleSignin.signOut();
+    logoutAsync();
   };
   const SetTenantHandle = () => {
     getTenant('ALSW_UAT').then(({success, ...data}) => {
@@ -73,8 +73,10 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
     return (
       <View
         style={{
-          height: 60,
-          backgroundColor: COLORS.primaryALS,
+          height: 50,
+          backgroundColor: COLORS.white,
+          borderBottomWidth:1,
+          borderBottomColor: COLORS.lightGray1
           // borderBottomLeftRadius: 45,
         }}>
         <View
@@ -87,7 +89,7 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
             marginTop: SIZES.base,
           }}>
           {/* Avartar */}
-          <TouchableOpacity onPress={LogOutHandle}>
+          {/* <TouchableOpacity onPress={LogOutHandle}>
             <Image
               source={icons.filter}
               style={{
@@ -98,15 +100,17 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
                 tintColor: COLORS.white,
               }}
             />
-          </TouchableOpacity>
-
+          </TouchableOpacity> */}
+          <View></View>
           <View
             style={{
               //flex: 1,
               marginLeft: SIZES.base,
               justifyContent: 'center',
             }}>
-            <Text h3 white>
+            <Text h3 darkGray2 style={{
+              fontWeight:'800'
+            }}>
               Home
             </Text>
           </View>
@@ -187,12 +191,29 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
       <View
         style={{
           paddingHorizontal: SIZES.padding,
-          marginTop: 20,
+          //paddingVertical:SIZES.radius
+          //marginTop: 20,
         }}>
         <FlatList
           data={dummyData.listImpAwb}
           keyExtractor={item => item.ID}
           showsVerticalScrollIndicator={false}
+          ListHeaderComponent={
+            <View
+            style={{
+              marginTop:20,
+              //marginBottom:140
+            }}
+              ></View>
+          }
+          ListFooterComponent={
+            <View
+            style={{
+              marginTop:20,
+              marginBottom:140
+            }}
+              ></View>
+          }
           ItemSeparatorComponent={() => (
             <LineDivider
               lineStyle={{
@@ -209,10 +230,8 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
                 onPress={() => {
                   navigation.navigate('TrackingDetail');
                 }}>
-                
                 <Text
-                  h2
-
+                  h3
                   style={{
                     color: COLORS.secondaryALS,
                     fontWeight: '800',
@@ -225,9 +244,7 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
                     flexDirection: 'row',
                   }}>
                   {/* pw-flightNot */}
-                  <View
-                   
-                  >
+                  <View>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -238,7 +255,7 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
                         style={{
                           width: 20,
                           height: 20,
-                          tintColor:COLORS.gray
+                          tintColor: COLORS.gray,
                         }}
                       />
                       <Text
@@ -250,29 +267,30 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
                     </View>
                     <View
                       style={{
-                        flexDirection:'row',
-                        marginTop:SIZES.base
-                      }}
-                    >
+                        flexDirection: 'row',
+                        marginTop: SIZES.base,
+                      }}>
                       <Image
                         source={icons.flightLanded}
                         style={{
-                          width:20,
-                          height:20,
-                          tintColor: COLORS.gray
+                          width: 20,
+                          height: 20,
+                          tintColor: COLORS.gray,
                         }}
                       />
-                      <Text style={{
-                        marginLeft: 5
-                      }}>KE361</Text>
+                      <Text
+                        style={{
+                          marginLeft: 5,
+                        }}>
+                        KE361
+                      </Text>
                     </View>
                   </View>
 
                   <View
-                   style={{
-                    flex:1,
-                  }}
-                  >
+                    style={{
+                      flex: 1,
+                    }}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -286,35 +304,46 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
                           tintColor: COLORS.gray,
                         }}
                       />
-                      <Text style={{
-                        marginLeft: 5
-                      }}>Cargo Terminal</Text>
+                      <Text
+                        style={{
+                          marginLeft: 5,
+                        }}>
+                        Cargo Terminal
+                      </Text>
                     </View>
                     <View
                       style={{
-                        flexDirection:'row',
-                        marginLeft:SIZES.padding,
-                        marginTop:SIZES.base
-                      }}
-                    >
-                      <Icon name='sms' size={20} style={{
-                        color:COLORS.gray
-                      }} />
-                      <Text style={{
-                        marginLeft: 5
-                      }}>In transist</Text>
+                        flexDirection: 'row',
+                        marginLeft: SIZES.padding,
+                        marginTop: SIZES.base,
+                      }}>
+                      <Icon
+                        name="sms"
+                        size={20}
+                        style={{
+                          color: COLORS.gray,
+                        }}
+                      />
+                      <Text
+                        style={{
+                          marginLeft: 5,
+                        }}>
+                        In transist
+                      </Text>
                     </View>
                   </View>
                   <View
-                  style={{
-                    justifyContent:'center'
-                  }}
-                  >
-                    <Image source={icons.right_arrow} style={{
-                      width:20,
-                      height:20,
-                      tintColor:COLORS.gray
-                    }} />
+                    style={{
+                      justifyContent: 'center',
+                    }}>
+                    <Image
+                      source={icons.right_arrow}
+                      style={{
+                        width: 20,
+                        height: 20,
+                        tintColor: COLORS.gray,
+                      }}
+                    />
                   </View>
                 </View>
               </TouchableOpacity>

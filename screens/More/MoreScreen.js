@@ -6,18 +6,29 @@ import {
   View,
   Image,
   TouchableOpacity,
+  SafeAreaView
 } from 'react-native';
 import icons from '../../constants/icons';
 import Text from '../../constants/Text';
 import LineDivider from '../../components/LineDivider';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-const MoreScreen = () =>{
+import {connectToRedux} from '../../utils/ReduxConnect';
+import AppActions from '../../stores/actions/AppActions';
+import PersistentStorageActions from '../../stores/actions/PersistentStorageActions';
+const MoreScreen = ({navigation, logoutAsync, setTenant}) =>{
+    const LogOutHandle = async () => {
+        console.log(' logoutAsync()');
+        //await GoogleSignin.signOut();
+        logoutAsync()
+      };
     function renderHeader() {
         return (
           <View
             style={{
-              height: 60,
-              backgroundColor: COLORS.primaryALS,
+              height: 40,
+              backgroundColor: COLORS.white,
+              borderBottomWidth:1,
+              borderBottomColor: COLORS.lightGray1
               // borderBottomLeftRadius: 45,
             }}>
             <View
@@ -35,7 +46,9 @@ const MoreScreen = () =>{
                   marginLeft: SIZES.base,
                   justifyContent: 'center',
                 }}>
-                <Text h3 white>
+                <Text h3 darkGray2 style={{
+                  fontWeight:'bold'
+                }}>
                   More
                 </Text>
               </View>
@@ -44,23 +57,10 @@ const MoreScreen = () =>{
           </View>
         );
       }
-    return (
-        <View
-          style={{
-            flex: 1,
-            backgroundColor:COLORS.white,
-          }}>
-          {renderHeader()}
-        <View
-            style={{
-            
-                marginTop:SIZES.base,
-               
-                flex:1
-            }}
-        >
-            {/* Avatar and User */}
-            <View
+      function renderInfomation(){
+            return(
+                <View>
+                        <View
                 style={{
                     flexDirection:'row',
                     alignItems:'center',
@@ -198,10 +198,70 @@ const MoreScreen = () =>{
                height:1,
               // marginTop:SIZES.padding
             }} />
+              {/* Change Password */}
+              <TouchableOpacity
+                style={{
+                    flexDirection:'row',
+                    height:50,
+                    alignItems:'center',
+                    paddingHorizontal:SIZES.padding
+                }}
+                onPress={LogOutHandle}
+            >
+             <Image
+                    source={icons.logout}
+                    style={{
+                        width:20,
+                        height:20,
+                        tintColor:COLORS.blue
+                    }}
+                />
+                <Text body3 style={{
+                    color:COLORS.blue,
+                    marginLeft: SIZES.base
+                }}>
+                   Log out
+                </Text>
+            </TouchableOpacity>
+            <LineDivider lineStyle={{
+                backgroundColor: COLORS.lightGray1,
+               height:1,
+              // marginTop:SIZES.padding
+            }} />
+                </View>
+            
+            )
+      }
+    return (
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor:COLORS.white,
+          }}>
+          {renderHeader()}
+        <View
+            style={{
+            
+                marginTop:SIZES.base,
+               
+                flex:1
+            }}
+        >
+            {renderInfomation()}
+            {/* Avatar and User */}
+            
         </View>
         
-        </View>
+        </SafeAreaView>
     )
 }
 
-export default MoreScreen
+export default connectToRedux({
+    component: MoreScreen,
+    stateProps: state => ({}),
+    dispatchProps: {
+      logoutAsync: AppActions.logoutAsync,
+      setTenant: PersistentStorageActions.setTenant,
+    },
+  });
+  

@@ -27,17 +27,20 @@ function CustomDrawerContent(props) {
 }
   return (
     <NavigationContainer>
-         <Drawer.Navigator
-      useLegacyImplementation
-screenOptions={{
-  headerShown:false
-}}
-      drawerContent={(props) => <CustomDrawerContent {...props} />}
-    >
-      <Drawer.Screen  name="Home" component={HomeNavigator}  />
-      <Drawer.Screen name="Notifications" component={NotificationsScreen} />
-    </Drawer.Navigator>
+      <HomeNavigator />
     </NavigationContainer>
+//     <NavigationContainer>
+//          <Drawer.Navigator
+//       useLegacyImplementation
+// screenOptions={{
+//   headerShown:false
+// }}
+//       drawerContent={(props) => <CustomDrawerContent {...props} />}
+//     >
+//       <Drawer.Screen  name="Home" component={HomeNavigator}  />
+//       <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+//     </Drawer.Navigator>
+//     </NavigationContainer>
   );
 };
 

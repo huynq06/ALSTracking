@@ -5,7 +5,7 @@ import icons from '../../constants/icons';
 import moment from 'moment';
 import Icon  from 'react-native-vector-icons/MaterialIcons'
 const today = new Date();
-const DatePicker = ({selectedDate, onSelectToday, onBackNext}) => {
+const DatePicker = ({selectedDate, onSelectToday, onBackNext,onOpenCalendar=()=>{}}) => {
   const currentDate = moment();
   const onBackDate = () => {
     onBackNext('back');
@@ -59,7 +59,7 @@ const DatePicker = ({selectedDate, onSelectToday, onBackNext}) => {
             style={{
               width: 15,
               height: 15,
-              tintColor: COLORS.white,
+              tintColor: COLORS.orange,
             }}
           />
         </TouchableOpacity>
@@ -73,7 +73,7 @@ const DatePicker = ({selectedDate, onSelectToday, onBackNext}) => {
           }}>
           <Text
             style={{
-              color: COLORS.white,
+              color: COLORS.darkGray2,
               textAlign: 'center',
               fontSize: 12,
             }}>
@@ -89,6 +89,7 @@ const DatePicker = ({selectedDate, onSelectToday, onBackNext}) => {
             }}
           >
               <TouchableOpacity
+              onPress={onOpenCalendar}
                 style={{
                   marginRight:SIZES.base
                 }}
@@ -96,7 +97,7 @@ const DatePicker = ({selectedDate, onSelectToday, onBackNext}) => {
             <Image
             source={icons.calendar}
             style={{
-              tintColor: COLORS.white,
+              tintColor: COLORS.orange,
               width: 20,
               height: 20,
             }}
@@ -106,7 +107,7 @@ const DatePicker = ({selectedDate, onSelectToday, onBackNext}) => {
             <Text
               style={{
                 fontSize: 10,
-                color: COLORS.white,
+                color: COLORS.darkGray2,
               }}>
               {selectedDate.format('DD MMM').toUpperCase()}
             </Text>
@@ -121,7 +122,7 @@ const DatePicker = ({selectedDate, onSelectToday, onBackNext}) => {
             style={{
               width: 15,
               height: 15,
-              tintColor: COLORS.white,
+              tintColor: COLORS.orange,
             }}
           />
         </TouchableOpacity>
