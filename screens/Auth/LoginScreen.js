@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import { LoginManager, AccessToken } from 'react-native-fbsdk';
-import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
+//import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
 import {getEnvVars} from '../../Environment';
 import {login} from '../../api/loginApi';
 import {getTenant} from '../../api/loginApi';
@@ -75,7 +75,7 @@ const LoginScreen = ({setToken, setTenant, navigation}) => {
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  async function signIn() {
+  /* async function signIn() {
     try {
       // Attempt login with permissions
       const result = await LoginManager.logInWithPermissions([
@@ -128,7 +128,7 @@ const LoginScreen = ({setToken, setTenant, navigation}) => {
     } else {
       //setAuthenticated(user);
     }
-  });
+  }); */
   const user = auth().currentUser;
   console.log('User Login --------------------------------------', user);
   // if (authenticated) {
@@ -179,7 +179,7 @@ const LoginScreen = ({setToken, setTenant, navigation}) => {
         });
       })
       .catch(e => {
-        setError(err.message);
+        setError(e.message);
         setIsLoading(false);
       });
     //action = authActions.login(email, password);
@@ -204,7 +204,7 @@ const LoginScreen = ({setToken, setTenant, navigation}) => {
     if (passwordLogin) {
       setPassword(passwordLogin);
     }
-    if (saveMeStore == 'true') {
+    if (saveMeStore === 'true') {
       setSaveMe(true);
     }
   }, []);
@@ -380,7 +380,7 @@ const LoginScreen = ({setToken, setTenant, navigation}) => {
               color: COLORS.white,
               fontSize: SIZES.body3,
             }}
-            onPress={signIn}
+            //onPress={signIn}
           />
           <IconTextButton
             label="Continue with Google"
@@ -398,7 +398,7 @@ const LoginScreen = ({setToken, setTenant, navigation}) => {
               color: COLORS.gray,
               fontSize: SIZES.body3,
             }}
-            onPress={signInWithGoole}
+            //onPress={signInWithGoole}
           />
         </View>
         {/*   <IconTextButton

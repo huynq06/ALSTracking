@@ -32,13 +32,14 @@ const AddTrackingScreen = ({navigation}) =>{
           <Header
             // eslint-disable-next-line react-native/no-inline-styles
             containerStyle={{
-              height: 60,
+              height: 50,
               paddingHorizontal: SIZES.padding,
               alignItems: 'center',
-              backgroundColor: COLORS.primaryALS,
+              backgroundColor: COLORS.white,
               marginTop: Platform.OS == 'ios' ? 30 : 0,
             }}
             title="Add Tracking"
+                
             leftComponent={
               <TouchableOpacity
                 // eslint-disable-next-line react-native/no-inline-styles

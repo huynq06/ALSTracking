@@ -6,7 +6,7 @@ import {
   View,
   Image,
   FlatList,
-  ScrollView,
+  SafeAreaView,
   StyleSheet,
   TouchableOpacity,
   Linking,
@@ -73,7 +73,7 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
     return (
       <View
         style={{
-          height: 50,
+          height: 40,
           backgroundColor: COLORS.white,
           borderBottomWidth:1,
           borderBottomColor: COLORS.lightGray1
@@ -86,7 +86,7 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
             justifyContent: 'space-between',
 
             //backgroundColor:COLORS.red,
-            marginTop: SIZES.base,
+            //marginTop: SIZES.base,
           }}>
           {/* Avartar */}
           {/* <TouchableOpacity onPress={LogOutHandle}>
@@ -109,7 +109,7 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
               justifyContent: 'center',
             }}>
             <Text h3 darkGray2 style={{
-              fontWeight:'800'
+              //fontWeight:'800'
             }}>
               Home
             </Text>
@@ -182,10 +182,10 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
   }
 
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: '#F2F2F2',
+        backgroundColor: 'white',
       }}>
       {renderHeader()}
       <View
@@ -373,7 +373,7 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
         onPress={() => navigation.navigate('AddTracking')}>
         <Icon name="add" size={30} color="white" />
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 

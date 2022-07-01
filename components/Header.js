@@ -31,7 +31,7 @@ const Header = ({containerStyle, title, leftComponent, rightComponent}) => {
             ...FONTS.h3,
             fontSize: 18,
             fontFamily: 'Roboto-Bold',
-            color: COLORS.white,
+            color: COLORS.gray,
           }}>
           {title}
         </Text>

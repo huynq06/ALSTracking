@@ -27,7 +27,7 @@ const TrackingDetailScreen = () =>{
           <View
             style={{
               height: 60,
-              backgroundColor: COLORS.primaryALS,
+              backgroundColor: COLORS.white,
               // borderBottomLeftRadius: 45,
             }}>
             <View
@@ -37,7 +37,9 @@ const TrackingDetailScreen = () =>{
                 justifyContent: 'space-between',
                 marginTop: SIZES.base,
               }}>
-              <View></View>
+              <View>
+                <Text>Detail</Text>
+              </View>
     
               <View
                 style={{
@@ -45,7 +47,7 @@ const TrackingDetailScreen = () =>{
                   marginLeft: SIZES.base,
                   justifyContent: 'center',
                 }}>
-                <Text h3 white>
+                <Text h3 red>
                   More
                 </Text>
               </View>

@@ -11,12 +11,17 @@ target 'ALSTracking' do
     # to enable hermes on iOS, change `false` to `true` and then install pods
     :hermes_enabled => false
   )
+  #pod 'react-native-camera', :path => '../node_modules/react-native-camera'
 
   target 'ALSTrackingTests' do
     inherit! :complete
     # Pods for testing
   end
+  permissions_path = '../node_modules/react-native-permissions/ios'
 
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
+  pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
