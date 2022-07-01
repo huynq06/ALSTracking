@@ -49,7 +49,7 @@ const MoreScreen = ({navigation, logoutAsync, setTenant}) =>{
                 <Text h3 darkGray2 style={{
                   fontWeight:'bold'
                 }}>
-                  More
+                  Setting
                 </Text>
               </View>
              <View></View>
