@@ -1,4 +1,5 @@
 const background_01 = require('../assets/images/background_01.png');
+const noData = require('../assets/images/NoData.png');
 const background_02 = require('../assets/images/background_02.png');
 const favourite_food = require('../assets/images/favourite_food.png');
 const great_food = require('../assets/images/great_food.png');
@@ -12,10 +13,14 @@ const logoALS_full = require('../assets/images/ALS_Logo_full.png');
 const onboarding_1 = require('../assets/images/onBoarding1.png');
 const onboarding_2 = require('../assets/images/onBoarding1.png');
 const onboarding_3 = require('../assets/images/onBoarding1.png');
+const acsv = require('../assets/images/ACSV.png');
+const alsc = require('../assets/images/ALSC.png');
+const ncts = require('../assets/images/NCTS.png');
 export default {
   background_01,
   background_02,
   favourite_food,
+  noData,
   great_food,
   hot_delivery,
   logo_01,
@@ -27,4 +32,7 @@ export default {
   onboarding_2,
   onboarding_3,
   avartar,
+  acsv,
+  alsc,
+  ncts
 };

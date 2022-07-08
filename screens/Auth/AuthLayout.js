@@ -25,7 +25,7 @@ const AuthLayout = ({title, subTitle, titleContailner, children}) => {
       <View
         style={{
           flex: 1,
-          paddingVertical: SIZES.padding,
+          //paddingTop: SIZES.padding,
           backgroundColor: COLORS.white,
         }}>
         <KeyboardAwareScrollView
@@ -47,12 +47,14 @@ const AuthLayout = ({title, subTitle, titleContailner, children}) => {
               style={{
                 width: 150,
                 height: 100,
-                // backgroundColor:COLORS.green
+                 //backgroundColor:COLORS.green
               }}
             />
             {/* Title */}
-            <Text h2>{title}</Text>
-            <Text body3>{subTitle}</Text>
+            <Text h2 style={{
+              marginTop:-20
+            }}>{title}</Text>
+            {/* <Text body3>{subTitle}</Text> */}
             {/* Subtitle */}
           </View>
           {children}

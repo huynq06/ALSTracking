@@ -5,11 +5,17 @@ import AppNavigator from "../navigation/AppNavigator";
 import AuthNavigator from "../navigation/AuthNavigator/AuthNavigator";
 import {createTokenSelector} from '../stores/selectors/PersistentStorageSelectors'
 import { connectToRedux } from "../utils/ReduxConnect";
+import { initAPIInterceptor } from "../api/APIInterceptor";
+import { store,persistor } from "../stores";
 import PersistentStorageActions from "../stores/actions/PersistentStorageActions";
 import Loading from "../components/Loading/Loading";
 import { isTokenValid } from "../utils/TokenUtils";
+
+
+//initAPIInterceptor(store);
 const AppContainer = ({token,setToken}) => {
     const isValid = useMemo(() => isTokenValid(token), [token]);
+    console.log('Token is Valid --------------------------------------',isValid)
     useEffect(() => {
         if (!isValid && token && token.access_token) {
           setToken({});

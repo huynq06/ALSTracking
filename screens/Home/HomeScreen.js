@@ -35,6 +35,7 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
     ios: 'fb://profile/',
     android: 'fb://page/',
   });
+  const [trackings,setTrackings] = useState([])
   const today = moment();
   const [selectedDate, setSelectedDate] = useState(today);
   const [activeSearch, setActiveSearch] = useState(0);
@@ -58,15 +59,11 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
     }
   };
   const LogOutHandle = async () => {
-    console.log(' logoutAsync()');
-    //await GoogleSignin.signOut();
     logoutAsync();
   };
   const SetTenantHandle = () => {
     getTenant('ALSW_UAT').then(({success, ...data}) => {
-      console.log('getTenant###########################', data);
       setTenant(data);
-      //toggleTenantSelection();
     });
   };
   function renderHeader() {
@@ -84,9 +81,6 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
             flexDirection: 'row',
             paddingHorizontal: SIZES.padding,
             justifyContent: 'space-between',
-
-            //backgroundColor:COLORS.red,
-            //marginTop: SIZES.base,
           }}>
           {/* Avartar */}
           {/* <TouchableOpacity onPress={LogOutHandle}>
@@ -195,7 +189,7 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
           //marginTop: 20,
         }}>
         <FlatList
-          data={dummyData.listImpAwb}
+          data={trackings}
           keyExtractor={item => item.ID}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={
@@ -204,15 +198,42 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
               marginTop:20,
               //marginBottom:140
             }}
-              ></View>
+              >
+                <Text>List Tracking</Text>
+              </View>
           }
           ListFooterComponent={
             <View
             style={{
               marginTop:20,
-              marginBottom:140
+              //marginBottom:140
             }}
               ></View>
+          }
+          ListEmptyComponent={
+            <View
+              style={{
+                flex:1,
+                marginTop:50,
+              //height:400,
+                justifyContent:'center',
+                alignItems:'center',
+                overflow:'hidden'
+                //backgroundColor:'red'
+              }}
+            >
+              <Image
+                source={images.noData}
+                resizeMode='contain'
+                style={{
+                  width:140,
+                  height:140,
+                  //tintColor: COLORS.green,
+
+                  overflow:'hidden'
+                }}
+              />
+            </View>
           }
           ItemSeparatorComponent={() => (
             <LineDivider
