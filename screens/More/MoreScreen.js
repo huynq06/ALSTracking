@@ -21,6 +21,7 @@ const MoreScreen = ({navigation, logoutAsync, setTenant}) =>{
         //await GoogleSignin.signOut();
         logoutAsync()
       };
+      console.log('RE-RENDER MORE')
     function renderHeader() {
         return (
           <View

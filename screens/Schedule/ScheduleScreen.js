@@ -27,7 +27,7 @@ import {createLoadingSelector} from '../../stores/selectors/LoadingSelectors';
 import LoadingActions from '../../stores/actions/LoadingActions';
 import { getFlightByDate,getFlightImpByDate } from '../../api/FlightAPI';
 import TextButton from '../../components/TextButton';
-import FlightImpItem from '../../components/FlightImpItem';
+import FlightImpItem from '../../components/FLightImpItem';
 import FlightExpItem from '../../components/FLightExpItem';
 const ScheduleScreen = ({navigation, loading, startLoading, stopLoading}) => {
   const today = moment();
@@ -46,7 +46,7 @@ const ScheduleScreen = ({navigation, loading, startLoading, stopLoading}) => {
   const [flightData,setFlightData] = useState([])
   const filter = [1, 2];
   const loadFlight = useCallback((date,type) => {
-    console.log('date for load--------------------------',date)
+    console.log('date for load--------------------------',date,type)
     setIsRefreshing(true);
    setIsLoading(true)
    if(type==='EXPORT'){
@@ -76,7 +76,6 @@ const ScheduleScreen = ({navigation, loading, startLoading, stopLoading}) => {
     getFlightImpByDate(dateWithSec(date))
       .then(data => {
         setTotal(data.totalCount);
-        console.log(data.items)
         let flightData = data.items.map(item => {
           return {
             id: item.id,
@@ -98,19 +97,20 @@ const ScheduleScreen = ({navigation, loading, startLoading, stopLoading}) => {
       });
    }
     
-  }, [loading]);
-  useEffect(() => {
+  }, [selectedDate,type]);
+/*   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      loadFlight(selectedDate);
+      loadFlight(selectedDate,type);
     });
 
     return () => {
+      console.log('da chay vao unsubcribe')
       unsubscribe();
     };
-  }, [loadFlight]);
+  }, [loadFlight]); */
   const onDateChangeHandle = date => {
     setSelectedDate(date);
-    //loadFlight(date);
+    loadFlight(date,type);
   };
   const onSelectTodayHandle = () => {
     setIsActiveIcon(false);
@@ -128,17 +128,22 @@ const ScheduleScreen = ({navigation, loading, startLoading, stopLoading}) => {
       }),
     );
   };
-  console.log(selectedDate);
   const onBackNextHandle = direction => {
     if (direction === 'next') {
-      setSelectedDate(moment(selectedDate).add(1, 'days'));
+      const nextDate = moment(selectedDate).add(1, 'days')
+      setSelectedDate(nextDate);
+      loadFlight(nextDate,type);
      // loadFlight(selectedDate);
     } else {
-      setSelectedDate(moment(selectedDate).add(-1, 'days'));
-      //loadFlight(selectedDate);
+      const backDate = moment(selectedDate).add(-1, 'days')
+      setSelectedDate(backDate);
+      loadFlight(backDate,type);
     }
   };
-
+const handleOption = (option)=>{
+  setType(option)
+  loadFlight(selectedDate,option)
+}
   const handleFilter = (warehouse) => {
     const result = [];
     if(warehouse=='ALL'){
@@ -154,15 +159,17 @@ const ScheduleScreen = ({navigation, loading, startLoading, stopLoading}) => {
     }
 
   };
-  React.useEffect(() => {
+/*   React.useEffect(() => {
+    console.log('da chay vao Load FLight Export')
     // Fetch Schedules
     loadFlight(today,'EXPORT');
-  }, []);
+  }, []); */
 
   React.useEffect(() => {
+    console.log('da chay vao useEffect')
     // Fetch Schedules
     loadFlight(selectedDate,type);
-  }, [selectedDate,type]);
+  }, []);
 
   function renderHeader() {
     return (
@@ -397,7 +404,8 @@ const ScheduleScreen = ({navigation, loading, startLoading, stopLoading}) => {
           fontSize: 15,
           fontWeight:'600'
         }} 
-        onPress={()=>setType('EXPORT')}
+        onPress={()=>{handleOption('EXPORT')
+      }}
         buttonContainerStyle={{
           flex:1,
           backgroundColor:COLORS.white,
@@ -411,7 +419,8 @@ const ScheduleScreen = ({navigation, loading, startLoading, stopLoading}) => {
           fontSize: 15,
           fontWeight:'600'
         }} 
-        onPress={()=>setType('IMPORT')}
+        onPress={()=>{handleOption('IMPORT')
+      }}
         buttonContainerStyle={{
           flex:1,
           backgroundColor:COLORS.white,
