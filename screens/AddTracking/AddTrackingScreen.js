@@ -78,7 +78,7 @@ const AddTrackingScreen = ({navigation}) =>{
           {renderHeader()}
           <View
             style={{
-              height: Platform.OS == 'ios' ? 90 : 60,
+              height: 30,
             }}></View>
             
                 <View

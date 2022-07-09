@@ -8,7 +8,7 @@ import {COLORS, SIZES} from '../constants/theme';
 import icons from '../constants/icons';
 import Text from '../constants/Text';
 
-const FilterItem = ({isSelected, onPress, icon, name}) => {
+const FilterItem = ({isSelected, onPress, icon, name,hasIcon=false}) => {
   return (
     <TouchableOpacity
       style={{
@@ -23,7 +23,7 @@ const FilterItem = ({isSelected, onPress, icon, name}) => {
       }}
       onPress={onPress}>
       {/* Card Image */}
-      <View
+      {hasIcon &&     <View
         style={{
           width: 40,
           height: 25,
@@ -42,7 +42,8 @@ const FilterItem = ({isSelected, onPress, icon, name}) => {
             tintColor: COLORS.primaryALS,
           }}
         />
-      </View>
+      </View>}
+  
       {/* Name */}
       <Text
         style={{

@@ -2,7 +2,6 @@ const help = require('../assets/icons/help.png');
 const back = require('../assets/icons/back.png');
 const bell = require('../assets/icons/bell.png');
 const bill = require('../assets/icons/bill.png');
-const box = require('../assets/icons/box.png');
 const coupon = require('../assets/icons/coupon.png');
 const cross = require('../assets/icons/cross.png');
 const cart = require('../assets/icons/cart.png');
@@ -80,7 +79,6 @@ const check_circle = require('../assets/icons/check_circle.png');
 export default {
   coupon,
   cross,
-  box,
   cart,
   camera,
   defaultUser,

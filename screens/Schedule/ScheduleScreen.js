@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {COLORS, FONTS, SIZES} from '../../constants/theme';
 import dummyData from '../../constants/dummyData';
 import images from '../../constants/images';
@@ -12,31 +12,106 @@ import {
   TouchableOpacity,
   Animated,
   Linking,
+  ActivityIndicator,
 } from 'react-native';
 import icons from '../../constants/icons';
 import Text from '../../constants/Text';
 import moment from 'moment';
-import AppActions from '../../stores/actions/AppActions';
-import PersistentStorageActions from '../../stores/actions/PersistentStorageActions';
-import CalendarPicker from 'react-native-calendar-picker';
 import DatePicker from '../../components/DatePicker/DatePicker';
 import LineDivider from '../../components/LineDivider';
 import FilterModal from './FilterModal';
 import FilterModalDateTime from '../../components/FilterModalDateTime';
-const ScheduleScreen = ({navigation}) => {
+import {dateWithSec} from '../../utils/dateHelpers';
+import {connectToRedux} from '../../utils/ReduxConnect';
+import {createLoadingSelector} from '../../stores/selectors/LoadingSelectors';
+import LoadingActions from '../../stores/actions/LoadingActions';
+import { getFlightByDate,getFlightImpByDate } from '../../api/FlightAPI';
+import TextButton from '../../components/TextButton';
+import FlightImpItem from '../../components/FlightImpItem';
+import FlightExpItem from '../../components/FLightExpItem';
+const ScheduleScreen = ({navigation, loading, startLoading, stopLoading}) => {
   const today = moment();
   const [isActiveIcon, setIsActiveIcon] = useState(false);
   const [selectedDate, setSelectedDate] = useState(today);
+  const [total, setTotal] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [type,setType] = useState('EXPORT')
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const filterModalSharedValue1 = useSharedValue(SIZES.height);
   const filterModalSharedValue2 = useSharedValue(SIZES.height);
   const filterModalDatePickerSharedValue1 = useSharedValue(SIZES.height);
   const filterModalDatePickerSharedValue2 = useSharedValue(SIZES.height);
   const scrollY = useRef(new Animated.Value(0)).current;
-  const [flights, setFlights] = useState(dummyData.flightSchedules);
+  const [flights, setFlights] = useState([]);
+  const [flightData,setFlightData] = useState([])
   const filter = [1, 2];
-  const onDateChangeHandle = date =>{
+  const loadFlight = useCallback((date,type) => {
+    console.log('date for load--------------------------',date)
+    setIsRefreshing(true);
+   setIsLoading(true)
+   if(type==='EXPORT'){
+    getFlightByDate(dateWithSec(date))
+    .then(data => {
+      setTotal(data.totalCount);
+      let flightData = data.items.map(item => {
+        return {
+          id: item.id,
+          flightNo: item.flight,
+          atd: item.atd,
+          std: item.std,
+          cargo: item.cargoTerminal,
+          status: item.status,
+        };
+      });
+      setFlights(flightData);
+      setFlightData(flightData);
+    }).catch((err)=>{
+        console.log(err)
+    })
+    .finally(() => {
+      setIsLoading(false)
+      setIsRefreshing(false);
+    });
+   }else{
+    getFlightImpByDate(dateWithSec(date))
+      .then(data => {
+        setTotal(data.totalCount);
+        console.log(data.items)
+        let flightData = data.items.map(item => {
+          return {
+            id: item.id,
+            flightNo: item.flight,
+            ata: item.atd,
+            sta:item.std,
+            cargo: item.cargoTerminal,
+            status: item.status,
+          };
+        });
+        setFlights(flightData);
+        setFlightData(flightData);
+      }).catch((err)=>{
+          console.log(err)
+      })
+      .finally(() => {
+        setIsLoading(false)
+        setIsRefreshing(false);
+      });
+   }
+    
+  }, [loading]);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      loadFlight(selectedDate);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [loadFlight]);
+  const onDateChangeHandle = date => {
     setSelectedDate(date);
-  }
+    //loadFlight(date);
+  };
   const onSelectTodayHandle = () => {
     setIsActiveIcon(false);
     setSelectedDate(today);
@@ -53,22 +128,42 @@ const ScheduleScreen = ({navigation}) => {
       }),
     );
   };
+  console.log(selectedDate);
   const onBackNextHandle = direction => {
     if (direction === 'next') {
       setSelectedDate(moment(selectedDate).add(1, 'days'));
+     // loadFlight(selectedDate);
     } else {
       setSelectedDate(moment(selectedDate).add(-1, 'days'));
+      //loadFlight(selectedDate);
     }
   };
-  const handleFilter = () => {
+
+  const handleFilter = (warehouse) => {
     const result = [];
-    dummyData.flightSchedules.forEach((item, index) => {
-      if (filter.includes(item.warehouseID)) {
-        result.push(item);
-      }
-    });
-    setFlights(result);
+    if(warehouse=='ALL'){
+      setFlights(flightData)
+    }
+    else{
+      flightData.forEach((item, index) => {
+        if (item.cargo == warehouse) {
+          result.push(item);
+        }
+      });
+      setFlights(result);
+    }
+
   };
+  React.useEffect(() => {
+    // Fetch Schedules
+    loadFlight(today,'EXPORT');
+  }, []);
+
+  React.useEffect(() => {
+    // Fetch Schedules
+    loadFlight(selectedDate,type);
+  }, [selectedDate,type]);
+
   function renderHeader() {
     return (
       <View
@@ -123,47 +218,7 @@ const ScheduleScreen = ({navigation}) => {
             />
           </TouchableOpacity>
         </View>
-        {/* Selector */}
-        {/*   <View
-              style={{
-                paddingHorizontal:SIZES.padding,
-                marginTop:SIZES.base,
-                flexDirection:'row',
-                justifyContent:'space-between'
-              }}
-            >
-                <TextButton
-                label='Import'  
-                buttonContainerStyle={{
-                  backgroundColor: '#597EAA',
-                  width:100,
-                  height:35,
-                  justifyContent:'center',
-                  borderRadius: SIZES.radius
-                }}
-                ></TextButton>
-                     <TextButton
-                label='Export'  
-                buttonContainerStyle={{
-                  backgroundColor: '#597EAA',
-                  width:100,
-                  height:35,
-                  justifyContent:'center',
-                  borderRadius: SIZES.radius
-                }}
-                ></TextButton>
-                     <TextButton
-                label='Order'  
-                buttonContainerStyle={{
-                  backgroundColor: '#597EAA',
-                  width:100,
-                  height:35,
-                  justifyContent:'center',
-                  borderRadius: SIZES.radius
-                }}
-                ></TextButton>
-            </View> */}
-        {/* Date Picker */}
+
         <DatePicker
           selectedDate={selectedDate}
           onSelectToday={onSelectTodayHandle}
@@ -177,14 +232,14 @@ const ScheduleScreen = ({navigation}) => {
       <View
         style={{
           backgroundColor: COLORS.white,
-          borderBottomColor:COLORS.lightGray1,
-          borderBottomWidth:1
+          borderBottomColor: COLORS.lightGray1,
+          borderBottomWidth: 1,
         }}>
         <Animated.View
           style={{
             height: 80,
             width: '100%',
-/* 
+            /* 
             transform: [
                {
                 translateY: scrollY.interpolate({
@@ -217,9 +272,12 @@ const ScheduleScreen = ({navigation}) => {
                 marginLeft: SIZES.base,
                 justifyContent: 'center',
               }}>
-              <Text h3 darkGray2 style={{
-                fontWeight:'800'
-              }}>
+              <Text
+                h3
+                darkGray2
+                style={{
+                  fontWeight: '800',
+                }}>
                 Schedule
               </Text>
             </View>
@@ -228,7 +286,7 @@ const ScheduleScreen = ({navigation}) => {
                 justifyContent: 'center',
               }}
               onPress={() => {
-                console.log('Fileter')
+                console.log('Fileter');
                 filterModalSharedValue1.value = withTiming(0, {
                   duration: 100,
                 });
@@ -251,7 +309,7 @@ const ScheduleScreen = ({navigation}) => {
           </View>
           {/* Date Picker */}
           <DatePicker
-           onOpenCalendar={onToggleCalendar}
+            onOpenCalendar={onToggleCalendar}
             selectedDate={selectedDate}
             onSelectToday={onSelectTodayHandle}
             onBackNext={onBackNextHandle}
@@ -260,22 +318,20 @@ const ScheduleScreen = ({navigation}) => {
       </View>
     );
   }
-  function renderHeaderBar(){
-    return(
+  function renderHeaderBar() {
+    return (
       <View
         style={{
-          position:'absolute',
-          top:0,
-          right:0,
-          left:0,
-          height:40,
-          paddingHorizontal:SIZES.padding,
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          left: 0,
+          height: 40,
+          paddingHorizontal: SIZES.padding,
           //borderBottomColor:COLORS.lightGray1,
           //borderBottomWidth:1
-      
-        }}
-      >
-       {/*  <Animated.View
+        }}>
+        {/*  <Animated.View
           style={{
             position:'absolute',
             width:SIZES.width,
@@ -293,36 +349,77 @@ const ScheduleScreen = ({navigation}) => {
         {/* Header bar Title */}
         <Animated.View
           style={{
-            position:'absolute',
-            width:SIZES.width,
-            top:0,
-            left:0,
-            right:0,
-            bottom:0,
-            justifyContent:'center',
-            alignItems:'center',
-            backgroundColor:COLORS.white,
+            position: 'absolute',
+            width: SIZES.width,
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: COLORS.white,
             opacity: scrollY.interpolate({
-              inputRange:[40,70],
-              outputRange:[0,1]
+              inputRange: [40, 70],
+              outputRange: [0, 1],
             }),
-            transform:[
+            transform: [
               {
-                translateY:scrollY.interpolate({
-                  inputRange:[40,70],
-                  outputRange:[-60,0],
-                  extrapolate:'clamp'
-                })
-              }
-            ]
-          }}
-        >
-          <Text h3 darkGray2 style={{
-            fontWeight:'800'
+                translateY: scrollY.interpolate({
+                  inputRange: [40, 70],
+                  outputRange: [-60, 0],
+                  extrapolate: 'clamp',
+                }),
+              },
+            ],
           }}>
+          <Text
+            h3
+            darkGray2
+            style={{
+              fontWeight: '800',
+            }}>
             Today
           </Text>
         </Animated.View>
+      </View>
+    );
+  }
+  function renderOption(){
+    return(
+      <View style={{
+        flexDirection:'row',
+        paddingHorizontal:SIZES.padding,
+        height:40,
+        justifyContent:'space-between',
+      }}>
+        <TextButton label='EXPORT' labelStyle={{
+          color:type==='EXPORT'? COLORS.green : COLORS.gray,
+          fontSize: 15,
+          fontWeight:'600'
+        }} 
+        onPress={()=>setType('EXPORT')}
+        buttonContainerStyle={{
+          flex:1,
+          backgroundColor:COLORS.white,
+          borderBottomWidth:1,
+          borderBottomColor:type==='EXPORT'? COLORS.green :COLORS.white,
+        // marginRight: SIZES.base,
+        // borderRadius:SIZES.radius
+        }} />
+        <TextButton label='IMPORT' labelStyle={{
+          color:type==='IMPORT'? COLORS.green : COLORS.gray,
+          fontSize: 15,
+          fontWeight:'600'
+        }} 
+        onPress={()=>setType('IMPORT')}
+        buttonContainerStyle={{
+          flex:1,
+          backgroundColor:COLORS.white,
+          borderBottomWidth:1,
+          borderBottomColor:type==='IMPORT'? COLORS.green : COLORS.white,
+        //  marginLeft:SIZES.base,
+          //borderRadius:SIZES.radius
+        }} />
       </View>
     )
   }
@@ -330,144 +427,77 @@ const ScheduleScreen = ({navigation}) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#F2F2F2',
+        backgroundColor: 'white',
       }}>
-      {/* {renderHeader()} */}
-      <View
+           {renderCardHeader()}
+           {renderOption()}
+        {isLoading?  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size="large" color={COLORS.primaryALS} />
+      </View> : (   <View
         style={{
-         // marginTop: SIZES.base,
-          //marginBottom:160
-         paddingBottom: 80,
+          marginBottom: 180,
         }}>
-         
-        <Animated.FlatList
-          data={flights}
-          keyExtractor={item => item.flightID}
-          showsVerticalScrollIndicator={false}
-          ListHeaderComponent={
-            <View>
-              {/* Header */}
-         {/*      <View
+  
+          <FlatList
+          onRefresh={() => loadFlight(selectedDate,type)}
+          refreshing={isRefreshing}
+            data={flights}
+            keyExtractor={item => item.id}
+            showsVerticalScrollIndicator={false}
+            ListHeaderComponent={<View>
+              {/* {renderCardHeader()}
+              {renderOption()} */}
+              
+              </View>}
+        ListFooterComponent={
+          <View
             style={{
-              backgroundColor:COLORS.primaryALS,
-              width:SIZES.width,
-              height:40  
+              height:30,
+              //backgroundColor:COLORS.red
             }}
+            ></View>
+        }
+            scrollEventThrottle={16}
+            // onScroll={Animated.event(
+            //   [{nativeEvent: {contentOffset: {y: scrollY}}}],
+            //   {useNativeDriver: true},
+            // )}
+            ItemSeparatorComponent={() => (
+              <LineDivider
+                lineStyle={{
+                  backgroundColor: COLORS.lightGray1,
+                }}
+              />
+            )}
+            renderItem={({item, index}) => {
+              return  type==='EXPORT'? <FlightExpItem item={item} /> :  <FlightImpItem item={item} />
+            }}
+          />
 
-            ></View> */}
-              {renderCardHeader()}
-            </View>
-          }
-          scrollEventThrottle={16}
-          onScroll={Animated.event(
-            [{nativeEvent: {contentOffset: {y: scrollY}}}],
-            {useNativeDriver: true},
-          )}
-          /*   ListFooterComponent={() => {
-            return (
-              <View
-                style={{
-                  height:190,
-                  backgroundColor:COLORS.red
-                }}></View>
-            );
-          }} */
-          ItemSeparatorComponent={() => (
-            <LineDivider
-              lineStyle={{
-                backgroundColor: COLORS.lightGray1,
-              }}
-            />
-          )}
-          renderItem={({item, index}) => {
-            return (
-              <View
-                style={{
-                  marginHorizontal: SIZES.padding,
-                  marginVertical: SIZES.base,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <Image
-                  source={require('../../assets/images/' + 'ALS_Logo' + '.png')}
-                  style={{
-                    width: 60,
-                    height: 30,
-                  }}
-                />
-                <View
-                  style={{
-                    flex: 1,
-                  }}>
-                  <Text
-                    h2
-                    darkGray2
-                    style={{
-                      marginLeft: SIZES.padding,
-                    }}>
-                    {item.flightNo}
-                  </Text>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                    }}>
-                    <Text
-                      body3
-                      darkGray2
-                      style={{
-                        marginLeft: SIZES.padding,
-                      }}>
-                      ETA: {item.ETA}
-                    </Text>
-                    <Text
-                      body3
-                      gray
-                      style={{
-                        marginLeft: SIZES.base,
-                      }}>
-                      ATA: {item.ATA}
-                    </Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    alignSelf: 'flex-start',
-                    backgroundColor: COLORS.green,
-                    paddingHorizontal: SIZES.radius,
-                    paddingVertical: 3,
-                    borderRadius: SIZES.radius,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Text body3 white>
-                    Arrived
-                  </Text>
-                </View>
-                <Image
-                  source={icons.right_arrow}
-                  style={{
-                    width: 17,
-                    height: 17,
-                    tintColor: COLORS.gray,
-                  }}
-                />
-              </View>
-            );
-          }}
-        />
-      </View>
+      </View>)}
+      {/* {renderHeader()} */}
+   
       <FilterModal
         filterModalSharedValue1={filterModalSharedValue1}
         filterModalSharedValue2={filterModalSharedValue2}
+        applyFilterFunc = {handleFilter}
       />
-       <FilterModalDateTime
+      <FilterModalDateTime
         filterModalSharedValue1={filterModalDatePickerSharedValue1}
         filterModalSharedValue2={filterModalDatePickerSharedValue2}
         onDateChangeFunc={onDateChangeHandle}
       />
-     {renderHeaderBar()}
+      {renderHeaderBar()}
     </View>
   );
 };
-
-export default ScheduleScreen;
+export default connectToRedux({
+  component: ScheduleScreen,
+  stateProps: state => ({
+    loading: createLoadingSelector()(state),
+  }),
+  dispatchProps: {
+    startLoading: LoadingActions.start,
+    stopLoading: LoadingActions.stop,
+  },
+});

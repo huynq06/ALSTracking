@@ -38,7 +38,6 @@ GoogleSignin.configure({
 const LoginScreen = ({setToken, setTenant, navigation}) => {
   const SetTenantHandle = () => {
     getTenant('ALSW_UAT').then(({success, ...data}) => {
-      console.log('getTenant###########################', data);
       setTenant(data);
       //toggleTenantSelection();
     });
@@ -49,7 +48,6 @@ const LoginScreen = ({setToken, setTenant, navigation}) => {
   const LoginHandle = () => {
     login({userName: 'hung.ngo', password: 'ABCabc0708@'})
       .then(data => {
-        console.log('data$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', data);
         setToken({
           access_token: '',
           expires_in: 31536000,
@@ -130,7 +128,6 @@ const LoginScreen = ({setToken, setTenant, navigation}) => {
     }
   }); */
   const user = auth().currentUser;
-  console.log('User Login --------------------------------------', user);
   // if (authenticated) {
 
   // }
@@ -152,6 +149,13 @@ const LoginScreen = ({setToken, setTenant, navigation}) => {
       hideSubscription.remove();
     };
   }, []);
+  useEffect(()=>{
+    getTenant('ALSW').then(({success, ...data}) => {
+      console.log('getTenant###########################', data);
+      setTenant(data);
+      //toggleTenantSelection();
+    });
+  },[])
   const handleLogin = async () => {
     let action;
     setIsLoading(true);
@@ -165,10 +169,9 @@ const LoginScreen = ({setToken, setTenant, navigation}) => {
     login({userName: email, password: password})
       .then(data => {
         if (data.result !== 1) {
-          Alert.alert(data.description);
+          Alert.alert('Login Fail',data.description);
           return;
         }
-        //console.log('data$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$',data)
         setToken({
           access_token: '',
           expires_in: 31536000,
@@ -179,7 +182,9 @@ const LoginScreen = ({setToken, setTenant, navigation}) => {
         });
       })
       .catch(e => {
-        setError(e.message);
+        setError(e);
+        setIsLoading(false);
+      }).finally(()=>{
         setIsLoading(false);
       });
     //action = authActions.login(email, password);
@@ -195,9 +200,7 @@ const LoginScreen = ({setToken, setTenant, navigation}) => {
   const getData = useCallback(async () => {
     const saveMeStore = await AsyncStorage.getItem('saveMe');
     const userLogin = await AsyncStorage.getItem('userLogin');
-    console.log('userLogin:', userLogin);
     if (userLogin) {
-      console.log('da chay vao getData');
       setEmail(userLogin);
     }
     const passwordLogin = await AsyncStorage.getItem('passwordLogin');
@@ -218,7 +221,7 @@ const LoginScreen = ({setToken, setTenant, navigation}) => {
   }, [error]);
   return (
     <AuthLayout
-      title="Let's Sign You In"
+      title="Let's Sign In"
       subTitle="Welcome back, you 've been missed">
       <View
         style={{
