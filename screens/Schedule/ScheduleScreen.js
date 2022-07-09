@@ -21,13 +21,14 @@ import DatePicker from '../../components/DatePicker/DatePicker';
 import LineDivider from '../../components/LineDivider';
 import FilterModal from './FilterModal';
 import FilterModalDateTime from '../../components/FilterModalDateTime';
-import FlightImpItem from '../../components/FLightImpItem';
 import {dateWithSec} from '../../utils/dateHelpers';
 import {connectToRedux} from '../../utils/ReduxConnect';
 import {createLoadingSelector} from '../../stores/selectors/LoadingSelectors';
 import LoadingActions from '../../stores/actions/LoadingActions';
 import { getFlightByDate,getFlightImpByDate } from '../../api/FlightAPI';
 import TextButton from '../../components/TextButton';
+import FlightImpItem from '../../components/FlightImpItem';
+import FlightExpItem from '../../components/FLightExpItem';
 const ScheduleScreen = ({navigation, loading, startLoading, stopLoading}) => {
   const today = moment();
   const [isActiveIcon, setIsActiveIcon] = useState(false);
@@ -42,8 +43,9 @@ const ScheduleScreen = ({navigation, loading, startLoading, stopLoading}) => {
   const filterModalDatePickerSharedValue2 = useSharedValue(SIZES.height);
   const scrollY = useRef(new Animated.Value(0)).current;
   const [flights, setFlights] = useState([]);
+  const [flightData,setFlightData] = useState([])
   const filter = [1, 2];
-  const loadFlight = useCallback((date) => {
+  const loadFlight = useCallback((date,type) => {
     console.log('date for load--------------------------',date)
     setIsRefreshing(true);
    setIsLoading(true)
@@ -55,12 +57,14 @@ const ScheduleScreen = ({navigation, loading, startLoading, stopLoading}) => {
         return {
           id: item.id,
           flightNo: item.flight,
+          atd: item.atd,
           std: item.std,
           cargo: item.cargoTerminal,
           status: item.status,
         };
       });
       setFlights(flightData);
+      setFlightData(flightData);
     }).catch((err)=>{
         console.log(err)
     })
@@ -72,17 +76,19 @@ const ScheduleScreen = ({navigation, loading, startLoading, stopLoading}) => {
     getFlightImpByDate(dateWithSec(date))
       .then(data => {
         setTotal(data.totalCount);
+        console.log(data.items)
         let flightData = data.items.map(item => {
           return {
             id: item.id,
             flightNo: item.flight,
-            atd: item.atd,
-            std:item.std,
+            ata: item.atd,
+            sta:item.std,
             cargo: item.cargoTerminal,
             status: item.status,
           };
         });
         setFlights(flightData);
+        setFlightData(flightData);
       }).catch((err)=>{
           console.log(err)
       })
@@ -133,23 +139,29 @@ const ScheduleScreen = ({navigation, loading, startLoading, stopLoading}) => {
     }
   };
 
-  const handleFilter = () => {
+  const handleFilter = (warehouse) => {
     const result = [];
-    dummyData.flightSchedules.forEach((item, index) => {
-      if (filter.includes(item.warehouseID)) {
-        result.push(item);
-      }
-    });
-    setFlights(result);
+    if(warehouse=='ALL'){
+      setFlights(flightData)
+    }
+    else{
+      flightData.forEach((item, index) => {
+        if (item.cargo == warehouse) {
+          result.push(item);
+        }
+      });
+      setFlights(result);
+    }
+
   };
   React.useEffect(() => {
     // Fetch Schedules
-    loadFlight(today);
+    loadFlight(today,'EXPORT');
   }, []);
 
   React.useEffect(() => {
     // Fetch Schedules
-    loadFlight(selectedDate);
+    loadFlight(selectedDate,type);
   }, [selectedDate,type]);
 
   function renderHeader() {
@@ -417,30 +429,39 @@ const ScheduleScreen = ({navigation, loading, startLoading, stopLoading}) => {
         flex: 1,
         backgroundColor: 'white',
       }}>
+           {renderCardHeader()}
+           {renderOption()}
         {isLoading?  <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <ActivityIndicator size="large" color={COLORS.primaryALS} />
       </View> : (   <View
         style={{
-          paddingBottom: 80,
+          marginBottom: 180,
         }}>
   
-          <Animated.FlatList
-          onRefresh={() => loadFlight(selectedDate)}
+          <FlatList
+          onRefresh={() => loadFlight(selectedDate,type)}
           refreshing={isRefreshing}
             data={flights}
             keyExtractor={item => item.id}
             showsVerticalScrollIndicator={false}
             ListHeaderComponent={<View>
-              {renderCardHeader()}
-              {renderOption()}
+              {/* {renderCardHeader()}
+              {renderOption()} */}
               
               </View>}
-        
+        ListFooterComponent={
+          <View
+            style={{
+              height:30,
+              //backgroundColor:COLORS.red
+            }}
+            ></View>
+        }
             scrollEventThrottle={16}
-            onScroll={Animated.event(
-              [{nativeEvent: {contentOffset: {y: scrollY}}}],
-              {useNativeDriver: true},
-            )}
+            // onScroll={Animated.event(
+            //   [{nativeEvent: {contentOffset: {y: scrollY}}}],
+            //   {useNativeDriver: true},
+            // )}
             ItemSeparatorComponent={() => (
               <LineDivider
                 lineStyle={{
@@ -449,7 +470,7 @@ const ScheduleScreen = ({navigation, loading, startLoading, stopLoading}) => {
               />
             )}
             renderItem={({item, index}) => {
-              return  <FlightImpItem item={item} />
+              return  type==='EXPORT'? <FlightExpItem item={item} /> :  <FlightImpItem item={item} />
             }}
           />
 
@@ -459,6 +480,7 @@ const ScheduleScreen = ({navigation, loading, startLoading, stopLoading}) => {
       <FilterModal
         filterModalSharedValue1={filterModalSharedValue1}
         filterModalSharedValue2={filterModalSharedValue2}
+        applyFilterFunc = {handleFilter}
       />
       <FilterModalDateTime
         filterModalSharedValue1={filterModalDatePickerSharedValue1}

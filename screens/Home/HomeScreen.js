@@ -10,6 +10,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Linking,
+  Platform
 } from 'react-native';
 import icons from '../../constants/icons';
 import Text from '../../constants/Text';
@@ -35,7 +36,7 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
     ios: 'fb://profile/',
     android: 'fb://page/',
   });
-  const [trackings,setTrackings] = useState([])
+  const [trackings,setTrackings] = useState(dummyData.listImpAwb)
   const today = moment();
   const [selectedDate, setSelectedDate] = useState(today);
   const [activeSearch, setActiveSearch] = useState(0);
@@ -185,6 +186,7 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
       <View
         style={{
           paddingHorizontal: SIZES.padding,
+          marginBottom:80
           //paddingVertical:SIZES.radius
           //marginTop: 20,
         }}>
@@ -206,7 +208,7 @@ const HomeScreen = ({navigation, logoutAsync, setTenant}) => {
             <View
             style={{
               marginTop:20,
-              //marginBottom:140
+              marginBottom:30
             }}
               ></View>
           }

@@ -3,9 +3,10 @@ import {TouchableOpacity, View, Image} from 'react-native';
 import {COLORS, SIZES, FONTS} from '../constants/theme';
 import icons from '../constants/icons';
 import Text from '../constants/Text';
+import RoundIcon from './RoundIcon';
 import images from '../constants/images';
 
-const FlightImpItem = ({item}) =>{
+const FlightExpItem = ({item}) =>{
     return(
         <View
                 style={{
@@ -45,7 +46,7 @@ const FlightImpItem = ({item}) =>{
                       style={{
                         marginLeft: SIZES.padding,
                       }}>
-                      STA: {item?.sta}
+                      STD: {item?.std}
                     </Text>
                     <Text
                       body4
@@ -53,14 +54,14 @@ const FlightImpItem = ({item}) =>{
                       style={{
                         marginLeft: SIZES.base,
                       }}>
-                      ATA: {item?.ata?.substring(10)}
+                      ATD: {item?.atd?.substring(10)}
                     </Text>
                   </View>
                 </View>
                 <View
                   style={{
                     alignSelf: 'flex-start',
-                    backgroundColor: item.status === 'ARRIVED'? COLORS.green:COLORS.gray ,
+                    backgroundColor: item.status === 'UNDEPARTED'? COLORS.gray : COLORS.green,
                     paddingHorizontal: SIZES.radius,
                     //paddingVertical: 3,
                     borderRadius: SIZES.radius,
@@ -68,9 +69,9 @@ const FlightImpItem = ({item}) =>{
                     alignItems: 'center',
                   }}>
                   <Text body5 style={{
-                    color: item.status === 'ARRIVED'? COLORS.white : COLORS.black,
+                    color: item.status === 'UNDEPARTED'? COLORS.black : COLORS.white,
                   }}>
-                   {item.status === 'ARRIVED' ? 'arrived' : 'unarrived'}
+                   {item.status === 'UNDEPARTED' ? 'undeparted' : 'departed'}
                   </Text>
                 </View>
                 <Image
@@ -85,4 +86,4 @@ const FlightImpItem = ({item}) =>{
     )
 }
 
-export default FlightImpItem;
+export default FlightExpItem;

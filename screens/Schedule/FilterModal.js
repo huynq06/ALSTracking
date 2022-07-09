@@ -13,8 +13,9 @@ import Animated, {
   import icons from '../../constants/icons';
   import {SIZES, FONTS, COLORS} from '../../constants/theme';
   import FilterItem from '../../components/FilterItem';
-  const FilterModal = ({filterModalSharedValue1, filterModalSharedValue2}) => {
-    const [selected, setSelect] = useState('Import');
+import images from '../../constants/images';
+  const FilterModal = ({filterModalSharedValue1, filterModalSharedValue2,applyFilterFunc}) => {
+    const [selected, setSelect] = useState('ALL');
     const [cargoTerminal,setCargoTerminal] = useState(0);
     const filterModalContainerAniamtedStyle = useAnimatedStyle(() => {
       return {
@@ -84,6 +85,7 @@ import Animated, {
               ...FONTS.h3,
             }}
             onPress={() => {
+              applyFilterFunc(selected)
               filterModalSharedValue2.value = withTiming(SIZES.height, {
                 duration: 500,
               });
@@ -184,30 +186,38 @@ import Animated, {
               }}>
               <Text h3 gray>Flight</Text>
               <FilterItem
-                name="All"
-                icon={icons.burger}
-                isSelected={selected === 'All'}
+                name="ALL"
+                //icon={icons.burger}
+                isSelected={selected == 'ALL'}
                 onPress={() => {
-                  setSelect('All');
+                  setSelect('ALL');
                 }}
               />
               <FilterItem
-                name="Import"
-                icon={icons.flightLanded}
-                isSelected={selected === 'Import'}
+                name="ALSC"
+                //icon={images.alsc}
+                isSelected={selected == 'ALSC'}
                 onPress={() => {
-                  setSelect('Import');
+                  setSelect('ALSC');
                 }}
               />
               <FilterItem
-                name="Export"
-                icon={icons.flightDepart}
-                isSelected={selected === 'Export'}
+                name="ACSV"
+               //icon={images.acsv}
+                isSelected={selected == 'ACSV'}
                 onPress={() => {
-                  setSelect('Export');
+                  setSelect('ACSV');
                 }}
               />
-                 <Text h3 gray>Cargo Terminal</Text>
+                  <FilterItem
+                name="NCTS"
+                //icon={images.ncts}
+                isSelected={selected == 'NCTS'}
+                onPress={() => {
+                  setSelect('NCTS');
+                }}
+              />
+                 {/* <Text h3 gray>Cargo Terminal</Text>
                  <View
                     style={{
                         flexDirection:'row',
@@ -277,7 +287,7 @@ import Animated, {
                     borderWidth:1
                  }}
                  />
-                 </View>
+                 </View> */}
                 
             </View>
        
